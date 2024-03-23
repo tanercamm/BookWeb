@@ -1,7 +1,21 @@
+using BookWeb.Data;
+using BookWeb.Entity;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddDbContext<BookContext>(options =>
+{
+    //var config = builder.Configuration;
+    //var connectionString = config.GetConnectionString("mssql_connection");
+    //options.UseSqlServer(connectionString);
+    var connectionString = builder.Configuration.GetConnectionString("mssql_connection") + ";MultipleActiveResultSets=True";  // ayný anda birden fazla sorgulama sorununu çözmek için yazýyoruz
+    options.UseSqlServer(connectionString);
+});
 
 var app = builder.Build();
 

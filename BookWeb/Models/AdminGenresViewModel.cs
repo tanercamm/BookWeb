@@ -5,6 +5,7 @@ namespace BookWeb.Models
     public class AdminGenresViewModel
     {
         [Required(ErrorMessage = "Tür bilgisi girmelisiniz!")]
+        [StringLength(25)]
         public string Name { get; set; }
 
         public List<AdminGenreViewModel> Genres { get; set; }
@@ -26,6 +27,7 @@ namespace BookWeb.Models
         public int GenreId { get; set; }
 
         [Required(ErrorMessage = "Tür bilgisi girmelisiniz!")]
+        [StringLength(25)]
         public string Name { get; set; }
 
         public List<AdminGenreViewModel> Movies { get; set; }
