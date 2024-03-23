@@ -14,6 +14,7 @@
 
         public List<Genre> Genres { get; set; }
 
+        // kitap için bir authorID gerekli, her kitap bir author olmalıdır
         public int AuthorId { get; set; }
         public Author Author { get; set; }
     }
