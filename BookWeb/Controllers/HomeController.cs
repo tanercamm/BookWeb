@@ -1,32 +1,31 @@
 using System.Diagnostics;
+using BookWeb.Data;
 using BookWeb.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BookWeb.Controllers
 {
-	public class HomeController : Controller
-	{
-		private readonly ILogger<HomeController> _logger;
+    public class HomeController : Controller
+    {
+        private readonly BookContext _context;
+        public HomeController(BookContext context)
+        {
+            _context = context;
+        }
 
-		public HomeController(ILogger<HomeController> logger)
-		{
-			_logger = logger;
-		}
+        public IActionResult Index()
+        {
+            var model = new HomePageViewModel
+            {
+                PopularBooks = _context.Books.ToList()
+            };
+            return View(model);
+        }
 
-		public IActionResult Index()
-		{
-			return View();
-		}
+        public IActionResult About()
+        {
+            return View();
+        }
 
-		public IActionResult Privacy()
-		{
-			return View();
-		}
-
-		[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-		public IActionResult Error()
-		{
-			return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-		}
-	}
+    }
 }

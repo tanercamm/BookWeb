@@ -1,0 +1,46 @@
+﻿@model AdminBooksViewModel
+
+<h1>Admin Book List</h1>
+
+<table class="table table-striped table-hover table-bordered">
+	<thead>
+		<tr>
+			<th style="width:30px">#</th>
+			<th style="width:100px">Image</th>
+			<th>Title</th>
+			<th style="width:150px">Author</th>
+			<th style="width:150px">Publisher</th>
+			<th style="width:30px">PageCount</th>
+			<th style="width:200px">Genres</th>
+			<th style="width:160px"></th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var book in Model.Books)
+		{
+			<tr>
+				<td>@book.BookId</td>
+				<td> <img src="/book/@book.ImageUrl" width="80" /></td>
+				<td>@book.Title</td>
+				<td>@book.Publisher</td>
+				<td>@book.PageCount</td>
+				<td>
+					<ul>
+						@foreach (var genre in book.Genres)
+						{
+							<li>@genre.Name</li>
+						}
+					</ul>
+				</td>
+				
+				<td>
+					<a href="/admin/bookupdate/@book.BookId" class="btn btn-primary btn-sm">Update</a>
+					<form action="/admin/bookdelete" method="post" style="display: inline">
+						<input type="hidden" name="bookId" value="@book.BookId" />
+						<button type="submit" class="btn btn-danger btn-sm">Delete</button>
+					</form>
+				</td>
+			</tr>
+		}
+	</tbody>
+</table>

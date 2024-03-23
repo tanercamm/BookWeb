@@ -17,10 +17,11 @@ namespace BookWeb.Models
     {
         public int BookId { get; set; }
         public string Title { get; set; }
-        public string Author { get; set; }
         public string Publisher { get; set; }
-        public int PageCount { get; set; }
+        public string PageCount { get; set; }
+        public string ImageUrl { get; set; }
         public List<Genre> Genres { get; set; }
+        public AuthorViewModel Author { get; set; } // Her kitabın yalnızca bir yazarı olacağı için
     }
 
     public class AdminCreateBookViewModel
@@ -35,20 +36,18 @@ namespace BookWeb.Models
         [StringLength(5000, MinimumLength = 100, ErrorMessage = "Film açıklaması 100-5000 aralığında olmalıdır.")]
         public string Description { get; set; }
 
-        [Display(Name = "Yazar")]
-        [Required(ErrorMessage = "Yazar ismi girmelisiniz!")]
-        [StringLength(30, MinimumLength = 3, ErrorMessage = "Yazar ismi 3-30 aralığında olmalıdır.")]
-        public string Author { get; set; }
+		[Display(Name = "Yazar")]
+		public AuthorCreateViewModel Author { get; set; }
 
-        [Display(Name = "Yayınevi")]
+		[Display(Name = "Yayınevi")]
         [Required(ErrorMessage = "Yayınevi ismi girmelisiniz!")]
         [StringLength(30, MinimumLength = 3, ErrorMessage = "Yayınevi ismi 3-30 aralığında olmalıdır.")]
         public string Publisher { get; set; }
 
         [Display(Name = "Sayfa Sayısı")]
         [Required(ErrorMessage = "Kitap sayfa sayısı girmelisiniz!")]
-        [Length(50,3000, ErrorMessage = "Kitap sayfa sayısı 50-3000 aralığında olmalıdır.")]
-        public int PageCount { get; set; }
+		[StringLength(4, MinimumLength = 1, ErrorMessage = "Kitap sayfa sayısı 1-4 rakam arasında olmalıdır.")]
+		public string PageCount { get; set; }
 
         [Required(ErrorMessage = "En az bir tür seçmelisiniz!")]
         public int[] GenreIds { get; set; }
@@ -66,20 +65,23 @@ namespace BookWeb.Models
         [StringLength(5000, MinimumLength = 100, ErrorMessage = "Film açıklaması 100-5000 aralığında olmalıdır.")]
         public string Description { get; set; }
 
-        [Display(Name = "Yazar")]
-        [Required(ErrorMessage = "Yazar ismi girmelisiniz!")]
-        [StringLength(30, MinimumLength = 3, ErrorMessage = "Yazar ismi 3-30 aralığında olmalıdır.")]
-        public string Author { get; set; }
+		[Display(Name = "Yazar")]
+		[Required(ErrorMessage = "Yazar seçmelisiniz!")]
+		public int AuthorId { get; set; } // Yazarın ID'si
 
-        [Display(Name = "Yayınevi")]
+		public List<AuthorViewModel> Authors { get; set; } // Tüm yazarları içeren bir liste
+
+		[Display(Name = "Yayınevi")]
         [Required(ErrorMessage = "Yayınevi ismi girmelisiniz!")]
         [StringLength(30, MinimumLength = 3, ErrorMessage = "Yayınevi ismi 3-30 aralığında olmalıdır.")]
         public string Publisher { get; set; }
 
         [Display(Name = "Sayfa Sayısı")]
         [Required(ErrorMessage = "Kitap sayfa sayısı girmelisiniz!")]
-        [Length(50, 3000, ErrorMessage = "Kitap sayfa sayısı 50-3000 aralığında olmalıdır.")]
-        public int PageCount { get; set; }
+		[StringLength(4, MinimumLength = 1, ErrorMessage = "Kitap sayfa sayısı 1-4 rakam arasında olmalıdır.")]
+		public string PageCount { get; set; }
+
+        public string ImageUrl { get; set; }
 
         [Required(ErrorMessage = "En az bir tür seçmelisiniz!")]
         public int[] GenreIds { get; set; }

@@ -1,0 +1,32 @@
+﻿@model AuthorViewModel
+
+<h1>Author List</h1>
+<hr />
+
+<table class="table table-striped table-hover table-bordered">
+	<thead>
+		<tr>
+			<th style="width:30px">#</th>
+			<th style="width:100px">Image</th>
+			<th style="width:150px">FullName</th>
+			<th>Biography</th>
+			<th style="width:160px"></th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>@Model.AuthorId</td>
+			<td> <img src="/book/@Model.ImageUrl" width="80" /></td>
+			<td>@Model.FullName</td>
+			<td>@Model.Biography</td>
+			<td>
+				<a href="/author/authorupdate/@Model.AuthorId" class="btn btn-primary btn-sm">Update</a>
+				<form action="/author/authordelete" method="post" style="display: inline">
+					<input type="hidden" name="authorId" value="@Model.AuthorId" />
+					<button type="submit" class="btn btn-danger btn-sm">Delete</button>
+				</form>
+			</td>
+		</tr>
+
+	</tbody>
+</table>

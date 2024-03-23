@@ -1,12 +1,16 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
-}
+﻿@model HomePageViewModel
+
 @section header
 {
     @await Html.PartialAsync("_header")
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<h1>Kitap Listesi</h1>
+<hr />
+
+<div id="filmler">
+	@foreach (var movie in Model.PopularBooks)
+	{
+		@await Html.PartialAsync("_book", movie)
+	}
 </div>

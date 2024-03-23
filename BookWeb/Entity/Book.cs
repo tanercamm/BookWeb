@@ -10,13 +10,14 @@
 
         public string Publisher { get; set; }  // yayınevi
 
-        public int PageCount { get; set; }  // sayfa sayısı
+        public string PageCount { get; set; }  // sayfa sayısı
 
-        public List<Genre> Genres { get; set; }
+		public string ImageUrl { get; set; }
 
-        // kitap için bir authorID gerekli, her kitap bir author olmalıdır
-        public int AuthorId { get; set; }
-        public Author Author { get; set; }
+		public List<Genre> Genres { get; set; }
+
+        public int AuthorId { get; set; } // Her kitabın yalnızca bir yazarı olacağı için
+        public virtual Author Author { get; set; }
     }
 
     // bir kitap için birden fazla tür olabilir

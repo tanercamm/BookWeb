@@ -30,7 +30,7 @@ namespace BookWeb.Models
         [StringLength(25)]
         public string Name { get; set; }
 
-        public List<AdminGenreViewModel> Movies { get; set; }
+        public List<AdminGenreViewModel> Books { get; set; }
 
     }
 
