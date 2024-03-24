@@ -10,8 +10,10 @@ namespace BookWeb.Models
 
 		public string Biography { get; set; }
 
-		public string ImageUrl { get; set; }
+		public string ImageAuthor { get; set; }
+
 	}
+
 
 	public class AuthorCreateViewModel
 	{
@@ -25,13 +27,10 @@ namespace BookWeb.Models
 		[StringLength(5000, MinimumLength = 100, ErrorMessage = "Biyografi alanı 100-5000 aralığında olmalıdır.")]
 		public string Biography { get; set; }
 
-		// Yazarın kitaplarını temsil eden liste
-		public List<AdminBookViewModel> Books { get; set; }
-
 	}
 
-    public class AuthorEditViewModel
-    {
+	public class AuthorEditViewModel
+	{
 		[Display(Name = "Yazar")]
 		[Required(ErrorMessage = "Yazar ismi girmelisiniz!")]
 		[StringLength(30, MinimumLength = 3, ErrorMessage = "Yazar ismi 3-30 aralığında olmalıdır.")]
@@ -42,7 +41,7 @@ namespace BookWeb.Models
 		[StringLength(5000, MinimumLength = 100, ErrorMessage = "Biyografi alanı 100-5000 aralığında olmalıdır.")]
 		public string Biography { get; set; }
 
-		public string ImageUrl { get; set; }
+		public string ImageAuthor { get; set; }
 
 	}
 

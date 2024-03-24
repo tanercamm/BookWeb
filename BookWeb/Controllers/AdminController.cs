@@ -19,8 +19,26 @@ namespace BookWeb.Controllers
 		[HttpGet]
 		public IActionResult BookCreate()
 		{
+			var viewModel = new AdminCreateBookViewModel();
+
+			// Retrieve authors from the database and populate the Authors property of the view model
+			viewModel.Authors = _context.Authors
+				.Select(author => new AuthorViewModel
+				{
+					AuthorId = author.AuthorId,
+					FullName = author.FullName,
+					Biography = author.Biography,
+					ImageAuthor = author.ImageAuthor
+				})
+				.ToList();
+
+			if (viewModel.Authors == null)
+			{
+				viewModel.Authors = new List<AuthorViewModel>();
+			}
+
 			ViewBag.Genres = _context.Genres.ToList();
-			return View(new AdminCreateBookViewModel());
+			return View(viewModel);
 		}
 
 		[HttpPost]
@@ -41,15 +59,23 @@ namespace BookWeb.Controllers
 					ImageUrl = "default.jpg"
 				};
 
-				foreach (var id in model.GenreIds)
+				//foreach (var id in model.GenreIds)
+				//{
+				//	entity.Genres.Add(_context.Genres.FirstOrDefault(i => i.GenreId == id));
+				//}
+				entity.Genres = _context.Genres.Where(g => model.GenreIds.Contains(g.GenreId)).ToList();
+
+				// Retrieve the author from the database based on the selected AuthorId
+				var author = _context.Authors.FirstOrDefault(a => a.AuthorId == model.AuthorId);
+				if (author == null)
 				{
-					entity.Genres.Add(_context.Genres.FirstOrDefault(i => i.GenreId == id));
-					//var genre = _context.Genres.FirstOrDefault(i => i.GenreId == id);
-					//if (genre != null)
-					//{
-					//	entity.Genres.Add(genre);
-					//}
+					ModelState.AddModelError("", "Geçersiz yazar seçimi!");
+					ViewBag.Genres = _context.Genres.ToList();
+					return View(model);
 				}
+
+				// Associate the author with the book
+				entity.Author = author;
 
 				_context.Books.Add(entity);
 				_context.SaveChanges();

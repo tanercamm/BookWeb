@@ -6,7 +6,12 @@ namespace BookWeb.Models
     public class AdminBooksViewModel
     {
         public List<AdminBookViewModel> Books { get; set; }
-    }
+
+		public AdminBooksViewModel()
+		{
+			Books = new List<AdminBookViewModel>();
+		}
+	}
 
     // ViewModel'den her bilginin gelmesini istemiyoruz bu yüzden;
     // List<Movie> değil de List<AdminMovieViewModel> veri tipi ile Movies parametresine ulaşıyoruz!
@@ -36,8 +41,11 @@ namespace BookWeb.Models
         [StringLength(5000, MinimumLength = 100, ErrorMessage = "Film açıklaması 100-5000 aralığında olmalıdır.")]
         public string Description { get; set; }
 
-		[Display(Name = "Yazar")]
-		public AuthorCreateViewModel Author { get; set; }
+		[Display(Name = "Author")]
+		[Required(ErrorMessage = "Please select the book's author.")]
+		public int AuthorId { get; set; } // Author's ID
+
+		public List<AuthorViewModel> Authors { get; set; }
 
 		[Display(Name = "Yayınevi")]
         [Required(ErrorMessage = "Yayınevi ismi girmelisiniz!")]

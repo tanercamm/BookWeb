@@ -13,13 +13,14 @@ namespace BookWeb.Controllers
 			_context = context;
 		}
 
+		[HttpGet]
 		public IActionResult AuthorCreate()
 		{
 			return View();
 		}
 
 		[HttpPost]
-		public async Task<IActionResult> AuthorCreate(AuthorCreateViewModel model)
+		public IActionResult AuthorCreate(AuthorCreateViewModel model)
 		{
 			if (ModelState.IsValid)
 			{
@@ -27,10 +28,10 @@ namespace BookWeb.Controllers
 				{
 					FullName = model.FullName,
 					Biography = model.Biography,
-					ImageUrl = "default.png"
+					ImageAuthor = "default.png"
 				};
 
-				_context.Author.Add(author);
+				_context.Authors.Add(author);
 				_context.SaveChanges();
 
 				return RedirectToAction("AuthorList");
@@ -41,7 +42,16 @@ namespace BookWeb.Controllers
 
 		public IActionResult AuthorList()
 		{
-			var authors = _context.Author.ToList();
+			// Author varlık sınıfından AuthorViewModel sınıfına dönüşüm yap
+			var authors = _context.Authors.Select(m => new AuthorViewModel
+			{
+				AuthorId = m.AuthorId,
+				FullName = m.FullName,
+				Biography = m.Biography,
+				ImageAuthor = "default.png"
+			}).ToList();
+
+			// AuthorViewModel listesini görünüme gönder
 			return View(authors);
 		}
 

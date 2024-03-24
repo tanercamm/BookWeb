@@ -1,4 +1,4 @@
-﻿@model AuthorViewModel
+﻿@model List<BookWeb.Models.AuthorViewModel>
 
 <h1>Author List</h1>
 <hr />
@@ -14,19 +14,21 @@
 		</tr>
 	</thead>
 	<tbody>
-		<tr>
-			<td>@Model.AuthorId</td>
-			<td> <img src="/book/@Model.ImageUrl" width="80" /></td>
-			<td>@Model.FullName</td>
-			<td>@Model.Biography</td>
-			<td>
-				<a href="/author/authorupdate/@Model.AuthorId" class="btn btn-primary btn-sm">Update</a>
-				<form action="/author/authordelete" method="post" style="display: inline">
-					<input type="hidden" name="authorId" value="@Model.AuthorId" />
-					<button type="submit" class="btn btn-danger btn-sm">Delete</button>
-				</form>
-			</td>
-		</tr>
-
+		@foreach (var author in Model)
+		{
+			<tr>
+				<td>@author.AuthorId</td>
+				<td> <img src="/author/@author.ImageAuthor" width="80" /></td>
+				<td>@author.FullName</td>
+				<td>@author.Biography</td>
+				<td>
+					<a href="/author/authorupdate/@author.AuthorId" class="btn btn-primary btn-sm">Update</a>
+					<form action="/author/authordelete" method="post" style="display: inline">
+						<input type="hidden" name="authorId" value="@author.AuthorId" />
+						<button type="submit" class="btn btn-danger btn-sm">Delete</button>
+					</form>
+				</td>
+			</tr>
+		}
 	</tbody>
 </table>

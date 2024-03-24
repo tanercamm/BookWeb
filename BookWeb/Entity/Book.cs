@@ -17,7 +17,7 @@
 		public List<Genre> Genres { get; set; }
 
         public int AuthorId { get; set; } // Her kitabın yalnızca bir yazarı olacağı için
-        public virtual Author Author { get; set; }
+        public Author Author { get; set; }
     }
 
     // bir kitap için birden fazla tür olabilir
