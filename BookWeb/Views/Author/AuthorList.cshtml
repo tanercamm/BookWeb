@@ -22,7 +22,7 @@
 				<td>@author.FullName</td>
 				<td>@author.Biography</td>
 				<td>
-					<a href="/author/authorupdate/@author.AuthorId" class="btn btn-primary btn-sm">Update</a>
+					<a href="/author/authoredit/@author.AuthorId" class="btn btn-primary btn-sm">Edit</a>
 					<form action="/author/authordelete" method="post" style="display: inline">
 						<input type="hidden" name="authorId" value="@author.AuthorId" />
 						<button type="submit" class="btn btn-danger btn-sm">Delete</button>

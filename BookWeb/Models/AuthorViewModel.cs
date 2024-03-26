@@ -31,6 +31,8 @@ namespace BookWeb.Models
 
 	public class AuthorEditViewModel
 	{
+		public int AuthorId { get; set; }
+
 		[Display(Name = "Yazar")]
 		[Required(ErrorMessage = "Yazar ismi girmelisiniz!")]
 		[StringLength(30, MinimumLength = 3, ErrorMessage = "Yazar ismi 3-30 aralığında olmalıdır.")]

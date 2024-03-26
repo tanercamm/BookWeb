@@ -1,0 +1,34 @@
+﻿@model AuthorEditViewModel
+
+<h2>Edit Author</h2>
+<hr />
+
+<form method="post" asp-controller="Author" asp-action="AuthorEdit">
+	<div class="row">
+		<div class="col-md-8">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group">
+                <label asp-for="FullName" class="control-label"></label>
+                <input asp-for="FullName" class="form-control" />
+                <span asp-validation-for="FullName" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Biography" class="control-label"></label>
+                <textarea asp-for="Biography" class="form-control" rows="4"></textarea>
+                <span asp-validation-for="Biography" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <input type="hidden" name="ImageAuthor" value="@Model.ImageAuthor" />
+				<input type="file" name="file" class="form-control" />
+			</div>
+
+            <br />
+			<button type="submit" class="btn btn-primary">Submit</button>
+		</div>
+		<div class="col-md-4">
+
+		</div>
+	</div>
+</form>

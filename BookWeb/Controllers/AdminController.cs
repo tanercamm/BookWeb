@@ -2,6 +2,7 @@
 using BookWeb.Entity;
 using BookWeb.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
 namespace BookWeb.Controllers
@@ -15,14 +16,9 @@ namespace BookWeb.Controllers
 		}
 
 		// BOOK
-
-		[HttpGet]
-		public IActionResult BookCreate()
+		private List<AuthorViewModel> GetAuthors()
 		{
-			var viewModel = new AdminCreateBookViewModel();
-
-			// Retrieve authors from the database and populate the Authors property of the view model
-			viewModel.Authors = _context.Authors
+			return _context.Authors
 				.Select(author => new AuthorViewModel
 				{
 					AuthorId = author.AuthorId,
@@ -31,12 +27,15 @@ namespace BookWeb.Controllers
 					ImageAuthor = author.ImageAuthor
 				})
 				.ToList();
+		}
 
-			if (viewModel.Authors == null)
-			{
-				viewModel.Authors = new List<AuthorViewModel>();
-			}
+		[HttpGet]
+		public IActionResult BookCreate()
+		{
+			var viewModel = new AdminCreateBookViewModel();
 
+			// Yazarları doldur
+			viewModel.Authors = GetAuthors();
 			ViewBag.Genres = _context.Genres.ToList();
 			return View(viewModel);
 		}
@@ -59,10 +58,11 @@ namespace BookWeb.Controllers
 					ImageUrl = "default.jpg"
 				};
 
-				//foreach (var id in model.GenreIds)
-				//{
-				//	entity.Genres.Add(_context.Genres.FirstOrDefault(i => i.GenreId == id));
-				//}
+				if (model.Authors == null)
+				{
+					model.Authors = GetAuthors(); // Örnek bir metot çağrısı, gerçek verileri nasıl alıyorsanız ona göre düzenleyin
+				}
+
 				entity.Genres = _context.Genres.Where(g => model.GenreIds.Contains(g.GenreId)).ToList();
 
 				// Retrieve the author from the database based on the selected AuthorId

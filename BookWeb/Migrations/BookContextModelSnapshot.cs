@@ -341,7 +341,7 @@ namespace BookWeb.Migrations
             modelBuilder.Entity("BookWeb.Entity.Book", b =>
                 {
                     b.HasOne("BookWeb.Entity.Author", "Author")
-                        .WithMany("Books")
+                        .WithMany()
                         .HasForeignKey("AuthorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -398,11 +398,6 @@ namespace BookWeb.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("BookWeb.Entity.Author", b =>
-                {
-                    b.Navigation("Books");
                 });
 #pragma warning restore 612, 618
         }
