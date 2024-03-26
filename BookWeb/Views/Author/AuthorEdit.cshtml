@@ -3,10 +3,12 @@
 <h2>Edit Author</h2>
 <hr />
 
-<form method="post" asp-controller="Author" asp-action="AuthorEdit">
+<form method="post" asp-controller="Author" asp-action="AuthorEdit" enctype="multipart/form-data">
 	<div class="row">
 		<div class="col-md-8">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <input type="hidden" name="AuthorId" value="@Model.AuthorId" />
 
             <div class="form-group">
                 <label asp-for="FullName" class="control-label"></label>

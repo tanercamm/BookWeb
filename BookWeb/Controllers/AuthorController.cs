@@ -28,7 +28,7 @@ namespace BookWeb.Controllers
 				{
 					FullName = model.FullName,
 					Biography = model.Biography,
-					ImageAuthor = "default.png"
+					ImageAuthor = "default.jpg"
 				};
 
 				_context.Authors.Add(author);
@@ -42,18 +42,25 @@ namespace BookWeb.Controllers
 
 		public IActionResult AuthorList()
 		{
-			// Author varlık sınıfından AuthorViewModel sınıfına dönüşüm yap
+			// Yazarları AuthorViewModel'e dönüştür
 			var authors = _context.Authors.Select(m => new AuthorViewModel
 			{
-				AuthorId = m.AuthorId,
-				FullName = m.FullName,
-				Biography = m.Biography,
-				ImageAuthor = "default.png"
+				Authors = new List<Author> // Her bir yazar için yeni bir Author örneği oluştur
+				{
+					new Author
+					{
+						AuthorId = m.AuthorId,
+						FullName = m.FullName,
+						Biography = m.Biography,
+						ImageAuthor = m.ImageAuthor
+					}
+				}
 			}).ToList();
 
 			// AuthorViewModel listesini görünüme gönder
 			return View(authors);
 		}
+
 
 		[HttpGet]
 		public IActionResult AuthorEdit(int? id)
@@ -63,13 +70,15 @@ namespace BookWeb.Controllers
 				return NotFound();
 			}
 
-			var entity = _context.Authors.Where(a => a.AuthorId == id).Select(p => new AuthorEditViewModel
-			{
-				FullName = p.FullName,
-				Biography = p.Biography,
-				ImageAuthor = p.ImageAuthor
-			}).FirstOrDefault(p => p.AuthorId == id);
-
+			var entity = _context.Authors
+								.Select(p => new AuthorEditViewModel
+								{
+									AuthorId = p.AuthorId,
+									FullName = p.FullName,
+									Biography = p.Biography,
+									ImageAuthor = p.ImageAuthor
+								})
+								.FirstOrDefault(p => p.AuthorId == id);
 			if (entity == null)
 			{
 				return NotFound();
@@ -111,7 +120,6 @@ namespace BookWeb.Controllers
 
 				return RedirectToAction("AuthorList");
 			}
-
 			return View(model);
 		}
 

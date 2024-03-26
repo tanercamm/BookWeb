@@ -21,13 +21,21 @@ namespace BookWeb.Controllers
 			return _context.Authors
 				.Select(author => new AuthorViewModel
 				{
-					AuthorId = author.AuthorId,
-					FullName = author.FullName,
-					Biography = author.Biography,
-					ImageAuthor = author.ImageAuthor
+					Authors = new List<Author> // Yazarları içeren yeni bir liste oluşturuluyor
+					{
+						new Author // Her yazar için yeni bir Author örneği oluşturuluyor
+						{
+							AuthorId = author.AuthorId,
+							FullName = author.FullName,
+							Biography = author.Biography,
+							ImageAuthor = author.ImageAuthor
+						}
+					}
 				})
 				.ToList();
 		}
+
+
 
 		[HttpGet]
 		public IActionResult BookCreate()

@@ -1,17 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using BookWeb.Entity;
 
 namespace BookWeb.Models
 {
 	public class AuthorViewModel
 	{
-		public int AuthorId { get; set; }
-
-		public string FullName { get; set; }
-
-		public string Biography { get; set; }
-
-		public string ImageAuthor { get; set; }
-
+		public List<Author> Authors { get; set; }
 	}
 
 
