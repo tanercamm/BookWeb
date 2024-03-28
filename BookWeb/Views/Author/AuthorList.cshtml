@@ -1,4 +1,4 @@
-﻿@model IEnumerable<BookWeb.Models.AuthorViewModel>
+﻿@model BookWeb.Models.AuthorViewModel
 
 <h1>Author List</h1>
 <hr />
@@ -14,9 +14,7 @@
 		</tr>
 	</thead>
 	<tbody>
-		@foreach (var authorViewModel in Model)
-		{
-			foreach (var author in authorViewModel.Authors)
+			@foreach (var author in Model.Authors)
 			{
 				<tr>
 					<td>@author.AuthorId</td>
@@ -32,6 +30,5 @@
 					</td>
 				</tr>
 			}
-		}
 	</tbody>
 </table>

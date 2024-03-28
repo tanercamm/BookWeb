@@ -29,7 +29,6 @@ namespace BookWeb.Controllers
 			return model;
 		}
 
-
 		[HttpGet]
 		public IActionResult BookCreate()
 		{
@@ -86,6 +85,7 @@ namespace BookWeb.Controllers
 			return View(model);
 		}
 
+		[HttpPost]
 		public IActionResult BookDelete(int bookIds)
 		{
 			var entity = _context.Books.Find(bookIds);
@@ -111,7 +111,14 @@ namespace BookWeb.Controllers
 								Publisher = m.Publisher,
 								PageCount = m.PageCount,
 								ImageUrl = m.ImageUrl,
-								Genres = m.Genres.ToList()
+								Genres = m.Genres.ToList(),
+								Author = new AuthorEditViewModel
+								{
+									AuthorId = m.Author.AuthorId,
+									ImageAuthor = m.Author.ImageAuthor,
+									FullName = m.Author.FullName,
+									Biography = m.Author.Biography,
+								}
 							}).ToList()
 			};
 			return View(books);
