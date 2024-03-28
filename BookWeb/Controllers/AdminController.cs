@@ -16,25 +16,18 @@ namespace BookWeb.Controllers
 		}
 
 		// BOOK
-		private List<AuthorViewModel> GetAuthors()
+		private AuthorViewModel GetAuthors()
 		{
-			return _context.Authors
-				.Select(author => new AuthorViewModel
-				{
-					Authors = new List<Author> // Yazarları içeren yeni bir liste oluşturuluyor
-					{
-						new Author // Her yazar için yeni bir Author örneği oluşturuluyor
-						{
-							AuthorId = author.AuthorId,
-							FullName = author.FullName,
-							Biography = author.Biography,
-							ImageAuthor = author.ImageAuthor
-						}
-					}
-				})
-				.ToList();
+			var model = new AuthorViewModel();
+			model.Authors = _context.Authors.Select(m => new AuthorEditViewModel
+			{
+				AuthorId = m.AuthorId,
+				FullName = m.FullName,
+				Biography = m.Biography,
+				ImageAuthor = m.ImageAuthor
+			}).ToList();
+			return model;
 		}
-
 
 
 		[HttpGet]
@@ -43,7 +36,7 @@ namespace BookWeb.Controllers
 			var viewModel = new AdminCreateBookViewModel();
 
 			// Yazarları doldur
-			viewModel.Authors = GetAuthors();
+			viewModel.Authors = GetAuthors().Authors;
 			ViewBag.Genres = _context.Genres.ToList();
 			return View(viewModel);
 		}
@@ -68,7 +61,7 @@ namespace BookWeb.Controllers
 
 				if (model.Authors == null)
 				{
-					model.Authors = GetAuthors(); // Örnek bir metot çağrısı, gerçek verileri nasıl alıyorsanız ona göre düzenleyin
+					model.Authors = GetAuthors().Authors; // Örnek bir metot çağrısı, gerçek verileri nasıl alıyorsanız ona göre düzenleyin
 				}
 
 				entity.Genres = _context.Genres.Where(g => model.GenreIds.Contains(g.GenreId)).ToList();

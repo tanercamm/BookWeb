@@ -31,14 +31,16 @@
 				<textarea asp-for="PageCount" class="form-control"></textarea>
 				<span asp-validation-for="PageCount" class="text-danger"></span>
 			</div>
+
 			<div class="form-group">
 				<label asp-for="AuthorId" class="control-label"></label>
 				<select asp-for="AuthorId" class="form-control"
-						asp-items="@(Model.Authors != null ? new SelectList(Model.Authors, "AuthorId", "FullName") : new SelectList(Enumerable.Empty<AdminBookViewModel>(), "BookId", "Title"))">
-					<option value="">-- Select Author --</option>
+						asp-items="@(new SelectList(Model.Authors, "AuthorId", "FullName"))">
+					<option value="">-- Yazar Seçin --</option>
 				</select>
 				<span asp-validation-for="AuthorId" class="text-danger"></span>
 			</div>
+
 
 
 

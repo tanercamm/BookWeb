@@ -5,7 +5,7 @@ namespace BookWeb.Models
 {
 	public class AuthorViewModel
 	{
-		public List<Author> Authors { get; set; }
+		public List<AuthorEditViewModel> Authors { get; set; }
 	}
 
 

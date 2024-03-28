@@ -19,7 +19,7 @@ namespace BookWeb.Models
 		public string PageCount { get; set; }
 		public string ImageUrl { get; set; }
 		public List<Genre> Genres { get; set; }
-		public AuthorViewModel Author { get; set; }
+		public AuthorEditViewModel Author { get; set; }
 	}
 
 	public class AdminCreateBookViewModel
@@ -51,7 +51,7 @@ namespace BookWeb.Models
 		[Required(ErrorMessage = "En az bir tür seçmelisiniz!")]
 		public int[] GenreIds { get; set; }
 
-		public List<AuthorViewModel> Authors { get; set; }
+		public List<AuthorEditViewModel> Authors { get; set; }
 
 	}
 
