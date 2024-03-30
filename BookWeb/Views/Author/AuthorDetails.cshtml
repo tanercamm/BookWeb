@@ -1,0 +1,16 @@
+﻿@model Author
+
+<div class="card">
+	<div class="row">
+		<div class="col-md-3">
+			<img src="/author/@Model.ImageAuthor" class="card-img" />
+		</div>
+		<div class="col-md-9">
+			<div class="card-body">
+				<h5 class="card-title">@Model.FullName</h5>
+				<p class="card-text">@Html.Raw(Model.Biography)</p>
+			</div>
+		</div>
+	</div>
+</div>
+

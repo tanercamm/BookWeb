@@ -1,0 +1,72 @@
+﻿@model BooksViewModel
+
+<h1>Kitap Listesi</h1>
+<hr />
+
+<div id="kitaplar">
+	@if (Model.Books.Count() > 0) // film var ise
+	{
+		@*PAGINATION*@
+		<nav aria-label="Page navigation example">
+			<ul class="pagination" id="pagination">
+				@for (var i = 1; i <= Model.PageInfo.TotalPages; i++)
+				{
+					<li class="page-item" aria-current="page"><a class="page-link" href="/books/list/?page=@i" onclick="changePage(@i)">@i</a></li>
+				}
+			</ul>
+		</nav>
+
+		@foreach (var book in Model.Books)
+		{
+			@await Html.PartialAsync("_book", book)
+
+		}
+
+		@*PAGINATION*@
+		<nav aria-label="Page navigation example">
+			<ul class="pagination" id="pagination">
+				@for (var i = 1; i <= Model.PageInfo.TotalPages; i++)
+				{
+					<li class="page-item" aria-current="page"><a class="page-link" href="/books/list/?page=@i" onclick="changePage(@i)">@i</a></li>
+				}
+			</ul>
+		</nav>
+	}
+	else
+	{
+		<div class="alert alert-warning">
+			Kitap bulunamadı..
+		</div>
+	}
+</div>
+
+@if (TempData["Message"] != null)
+{
+	@section message
+	{
+		@await Html.PartialAsync("_message", (string)TempData["Message"])
+	}
+}
+
+@section menu
+{
+	@* @await Html.PartialAsync("_menu", Model.Genres) *@
+	@await Component.InvokeAsync("Genres")
+}
+
+<script>
+	function changePage(pageNumber) {
+		// Tıklanan sayfa düğmesini aktif hale getir
+		var activeButton = document.querySelector('.pagination .page-item:nth-child(' + pageNumber + ')');
+		activeButton.classList.add('active');
+
+		// Aktif olan tüm sayfa düğmelerini pasif hale getir
+		var pageButtons = document.querySelectorAll('.pagination .page-item');
+		pageButtons.forEach(function (button) {
+			button.classList.remove('active');
+		});
+
+		// Tıklanan düğmenin arka plan rengini değiştir
+		activeButton.style.backgroundColor = 'darkgray';
+	}
+</script>

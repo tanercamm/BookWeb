@@ -6,7 +6,7 @@
 
 	@foreach (var genre in Model)
 	{
-		<a href="/movies/list/@genre.GenreId" class="list-group-item list-group-item-action @(ViewBag.SelectedGenre == genre.GenreId.ToString()?"active":"")">@genre.Name</a>
+		<a href="/books/list/@genre.GenreId" class="list-group-item list-group-item-action @(ViewBag.SelectedGenre == genre.GenreId.ToString()?"active":"")">@genre.Name</a>
 	}
 
 </div>

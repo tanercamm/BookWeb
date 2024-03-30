@@ -8,9 +8,9 @@
 <h1>Kitap Listesi</h1>
 <hr />
 
-<div id="filmler">
-	@foreach (var movie in Model.PopularBooks)
+<div id="kitaplar">
+	@foreach (var book in Model.PopularBooks)
 	{
-		@await Html.PartialAsync("_book", movie)
+		@await Html.PartialAsync("_book", book)
 	}
 </div>

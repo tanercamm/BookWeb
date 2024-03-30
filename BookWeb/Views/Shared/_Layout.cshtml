@@ -10,15 +10,37 @@
 	<link rel="stylesheet" href="~/BookWeb.styles.css" asp-append-version="true" />
 </head>
 <body>
+	@RenderSection("message", false)
 	<header>
 		@await Html.PartialAsync("_navbar")
 		@*-- Jumbotron alanı --*@
 		@RenderSection("header", false)
 	</header>
-	<div class="container">
-		<main role="main" class="pb-3">
-			@RenderBody()
-		</main>
+
+	<div class="container mt-3">
+		@*menu section kullandığımız takdirde sayfa kolonlarını 3e9 böldük ve 9 kolonuna renderbody ekliyoruz*@
+		@if (IsSectionDefined("menu"))
+		{
+			<div class="row">
+				<div class="col-md-3">
+					@* @await Html.PartialAsync("_menu") koşulunu kullanmaya gerek kalmadı *@
+					@RenderSection("menu", false)
+				</div>
+				<div class="col-md-9">
+					@RenderBody()
+				</div>
+			</div>
+		}
+		else
+		{
+			@*eğer menu section kullanmıyorsak renderbody sayfanın tamamını almasını sağladık*@
+
+			<div class="row">
+				<div class="col-md-12">
+					@RenderBody()
+				</div>
+			</div>
+		}
 	</div>
 
 	<footer class="border-top footer text-muted">

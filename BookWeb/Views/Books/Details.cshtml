@@ -1,0 +1,17 @@
+﻿@model Book
+
+<div class="card">
+	<div class="row">
+		<div class="col-md-3">
+			<img src="/book/@Model.ImageUrl" class="card-img" />
+		</div>
+		<div class="col-md-9">
+			<div class="card-body">
+				<h5 class="card-title">@Model.Title</h5>
+				<h6 class="card-title">@Model.Publisher</h6>
+				<p>Page Count: <span>(@Model.PageCount)</span></p>
+				<p class="card-text">@Html.Raw(Model.Description)</p>
+			</div>
+		</div>
+	</div>
+</div>
