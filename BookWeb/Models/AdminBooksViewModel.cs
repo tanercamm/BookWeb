@@ -58,6 +58,8 @@ namespace BookWeb.Models
 
 	public class AdminEditBookViewModel
 	{
+		public int BookId { get; set; }
+
 		[Display(Name = "Başlık")]
 		[Required(ErrorMessage = "Kitap başlığı girmelisiniz!")]
 		[StringLength(30, MinimumLength = 3, ErrorMessage = "Film başlığı 3-30 aralığında olmalıdır.")]
@@ -88,7 +90,7 @@ namespace BookWeb.Models
 		[Required(ErrorMessage = "En az bir tür seçmelisiniz!")]
 		public int[] GenreIds { get; set; }
 
-		public List<AuthorViewModel> Authors { get; set; }
+		public List<AuthorEditViewModel> Authors { get; set; }
 	}
 
 

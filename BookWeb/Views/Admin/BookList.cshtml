@@ -8,7 +8,7 @@
 			<th style="width:30px">#</th>
 			<th style="width:100px">Image</th>
 			<th>Title</th>
-			<th style="width:150px">Author</th>
+			<th style="width:250px">Author</th>
 			<th style="width:150px">Publisher</th>
 			<th style="width:30px">PageCount</th>
 			<th style="width:200px">Genres</th>
@@ -23,7 +23,7 @@
 				<td> <img src="/book/@book.ImageUrl" width="80" /></td>
 				<td>@book.Title</td>
 				<td>
-					→ <a href="/author/details/@book.Author.AuthorId">Info</a>
+					→ <a href="/author/details/@book.Author.AuthorId">@book.Author.FullName</a>
 				</td>
 				<td>@book.Publisher</td>
 				<td>@book.PageCount</td>
@@ -37,7 +37,7 @@
 				</td>
 				
 				<td>
-					<a href="/admin/bookupdate/@book.BookId" class="btn btn-primary btn-sm">Update</a>
+					<a href="/admin/bookedit/@book.BookId" class="btn btn-primary btn-sm">Edit</a>
 					<form action="/admin/bookdelete" method="post" style="display: inline">
 						<input type="hidden" name="bookIds" value="@book.BookId" />
 						<button type="submit" class="btn btn-danger btn-sm">Delete</button>

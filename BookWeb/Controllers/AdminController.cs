@@ -124,7 +124,92 @@ namespace BookWeb.Controllers
 			return View(books);
 		}
 
+		[HttpGet]
+		public IActionResult BookEdit(int? id)
+		{
+			if (id == null)
+			{
+				return NotFound();
+			}
+			var entity = _context.Books.Select(b => new AdminEditBookViewModel
+			{
+				BookId = b.BookId,
+				Title = b.Title,
+				Description = b.Description,
+				Publisher = b.Publisher,
+				PageCount = b.PageCount,
+				ImageUrl = b.ImageUrl,
+				AuthorId = b.AuthorId,
+				GenreIds = b.Genres.Select(g => g.GenreId).ToArray()
+			})
+		.FirstOrDefault(m => m.BookId == id);
 
+			if (entity == null)
+			{
+				return NotFound();
+			}
+
+
+			entity.Authors = _context.Authors.Select(a => new AuthorEditViewModel
+			{
+				AuthorId = a.AuthorId,
+				FullName = a.FullName
+			}).ToList();
+
+			ViewBag.Genres = _context.Genres.ToList();
+
+			return View(entity);
+		}
+
+		[HttpPost]
+		public async Task<IActionResult> BookEdit(AdminEditBookViewModel model, int[] genreIds, IFormFile file)
+		{
+			if (ModelState.IsValid)
+			{
+				var entity = _context.Books.Include("Genres").FirstOrDefault(g => g.BookId == model.BookId);
+
+				if (entity == null)
+				{
+					return NotFound();
+				}
+
+				entity.Title = model.Title;
+				entity.Description = model.Description;
+				entity.Publisher = model.Publisher;
+				entity.PageCount = model.PageCount;
+
+				if (file != null)
+				{
+					var extension = Path.GetExtension(file.FileName);  // .jpg , .png  uzantılarını aldık
+					var fileName = Path.GetFileName(file.FileName); // Dosya adı uzantısı ile birlikte
+					var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\book", fileName);
+					entity.ImageUrl = fileName;
+					using (var stream = new FileStream(path, FileMode.Create))
+					{
+						await file.CopyToAsync(stream);
+					}
+				}
+				else // yeni dosya yüklenmemişse, mevcut resmi tanımlarız
+				{
+					entity.ImageUrl = model.ImageUrl;
+				}
+
+				// türlerin güncellemesini sağlıyoruz
+				entity.Genres = genreIds.Select(id => _context.Genres.FirstOrDefault(i => i.GenreId == id)).ToList();
+
+				_context.SaveChanges();
+
+				return RedirectToAction("BookList");
+			}
+			model.Authors = _context.Authors.Select(a => new AuthorEditViewModel
+			{
+				AuthorId = a.AuthorId,
+				FullName = a.FullName
+			}).ToList();
+
+			ViewBag.Genres = _context.Genres.ToList();
+			return View(model);
+		}
 
 		// GENRE
 
