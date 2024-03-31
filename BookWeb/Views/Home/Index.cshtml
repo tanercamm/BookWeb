@@ -2,11 +2,21 @@
 
 @section header
 {
-    @await Html.PartialAsync("_header")
+	@await Html.PartialAsync("_header")
 }
 
 <h1>Kitap Listesi</h1>
 <hr />
+
+@*PAGINATION*@
+<nav aria-label="Page navigation example">
+	<ul class="pagination" id="pagination">
+		@for (var i = 1; i <= Model.PageInfo.TotalPages; i++)
+		{
+			<li class="page-item" aria-current="page"><a class="page-link" href="/?page=@i" onclick="changePage(@i)">@i</a></li>
+		}
+	</ul>
+</nav>
 
 <div id="kitaplar">
 	@foreach (var book in Model.PopularBooks)
@@ -14,3 +24,30 @@
 		@await Html.PartialAsync("_book", book)
 	}
 </div>
+
+@*PAGINATION*@
+<nav aria-label="Page navigation example">
+	<ul class="pagination" id="pagination">
+		@for (var i = 1; i <= Model.PageInfo.TotalPages; i++)
+		{
+			<li class="page-item" aria-current="page"><a class="page-link" href="/?page=@i" onclick="changePage(@i)">@i</a></li>
+		}
+	</ul>
+</nav>
+
+<script>
+	function changePage(pageNumber) {
+		// Tıklanan sayfa düğmesini aktif hale getir
+		var activeButton = document.querySelector('.pagination .page-item:nth-child(' + pageNumber + ')');
+		activeButton.classList.add('active');
+
+		// Aktif olan tüm sayfa düğmelerini pasif hale getir
+		var pageButtons = document.querySelectorAll('.pagination .page-item');
+		pageButtons.forEach(function (button) {
+			button.classList.remove('active');
+		});
+
+		// Tıklanan düğmenin arka plan rengini değiştir
+		activeButton.style.backgroundColor = 'darkgray';
+	}
+</script>
