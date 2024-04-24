@@ -42,12 +42,15 @@
 			</div>
 		}
 	</div>
+	@if (User.Identity!.IsAuthenticated)
+	{
+		<footer class="border-top footer text-muted">
+			<div class="container">
+				&copy; 2024 - BookWeb - <a href="home/about">About</a>
+			</div>
+		</footer>
+	}
 
-	<footer class="border-top footer text-muted">
-		<div class="container">
-			&copy; 2024 - BookWeb - <a href="home/about">About</a>
-		</div>
-	</footer>
 	<script src="~/lib/jquery/dist/jquery.min.js"></script>
 	<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha384-KyZXEAg3QhqLMpG8r+Knujsl5+z72sJQ/cT2w1CvbXQfoxy2k1tHv7kRG5wfm2xr" crossorigin="anonymous"></script>

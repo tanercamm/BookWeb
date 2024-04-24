@@ -1,5 +1,6 @@
 using BookWeb.Data;
 using BookWeb.Entity;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -38,6 +39,16 @@ builder.Services.Configure<IdentityOptions>(options =>
 
 	options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);  // hatalý giriþte 5 dakika süre cezasý
 	options.Lockout.MaxFailedAccessAttempts = 5;   // girmek için 5 kez hakký bulunur
+});
+
+// authentication için gerekli kod dizisini ekliyoruz. 
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options =>
+{
+	options.LoginPath = "/Account/Login";
+	options.AccessDeniedPath = "/Account/AccessDenied"; // <=> yetkisiz eriþim durumunda yolladýðý path yolu
+	options.SlidingExpiration = true;               // eriþim saðlandýðý vakit süresi resetler
+													//options.ExpireTimeSpan = TimeSpan.FromDays(30);
+	options.ExpireTimeSpan = TimeSpan.FromMinutes(1);
 });
 
 var app = builder.Build();

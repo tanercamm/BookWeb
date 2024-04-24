@@ -1,1 +1,30 @@
-﻿
+﻿@model List<Genre>
+
+
+<h2>
+	📚 BookWeb çatısı altında, bu projenin arkasındaki ekip olarak sizlere hizmet vermekten mutluluk duyuyoruz.
+</h2>
+<p>
+	📚 BookWeb, kitapseverlere en sevdikleri kitapları keşfetme imkanı sunan bir platformdur. Bizler, kitap tutkusunu kaliteli içeriklerle bir araya getirerek kullanıcılarımıza en iyi deneyimi yaşatmayı hedefliyoruz.
+</p>
+<p>
+	📚 BookWeb olarak, her bir kitabı detaylı bir şekilde inceleyip kullanıcılarımıza en doğru bilgileri sunmak için çaba harcıyoruz. Kitap kapaklarını bir araya getirirken, her birinin kendi benzersiz hikayesini ve atmosferini yansıttığına inanıyoruz. Her kitabı kapsamlı bir şekilde analiz ederek, 👥 kullanıcılarımızın doğru tercihler yapmalarına yardımcı olmayı amaçlıyoruz.
+</p>
+<p>
+	Aynı zamanda, BookWeb ekibi olarak kitap dünyasına olan tutkumuzu her zaman ön planda tutuyoruz. Her birimiz, farklı türlerdeki kitapları 📖 araştırmayı ve keşfetmeyi seviyoruz. Bu tutkumuz, projemizi daha da ileriye taşımak için bizi motive ediyor.🎉
+</p>
+<p>
+	📝 Eğer herhangi bir geri bildiriminiz veya sorunuz varsa, bizimle iletişime 💬 geçmekten çekinmeyin. Sizinle birlikte BookWeb platformunu daha da geliştirmek için sabırsızlanıyoruz.
+</p>
+<p>
+	🔍 Keyifli okumalar dileriz!<br>
+	🌟 Saygılarımızla,<br>
+	<a href="/home/index">BookWeb</a> Ekibi
+</p>
+
+
+@section menu
+{
+	@* @await Html.PartialAsync("_menu", Model) *@
+	@await Component.InvokeAsync("Genres")
+}
