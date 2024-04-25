@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 
 
-namespace MovieWeb.TagHelpers
+namespace BookWeb.TagHelpers
 {
 	[HtmlTargetElement("td", Attributes = "asp-role-users")]
 	public class RoleUsersTagHelper : TagHelper

@@ -13,7 +13,7 @@ namespace BookWeb.Controllers
 			_context = context;
 		}
 
-		public int pageSize = 10;
+		public int pageSize = 12;
 
 		public IActionResult Index(int page = 1)
 		{

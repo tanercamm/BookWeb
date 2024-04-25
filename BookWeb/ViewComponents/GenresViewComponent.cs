@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using BookWeb.Data;
 
-namespace MovieWeb.ViewComponents
+namespace BookWeb.ViewComponents
 {
 	public class GenresViewComponent : ViewComponent
 	{
@@ -19,7 +19,6 @@ namespace MovieWeb.ViewComponents
 			return View(_context.Genres.ToList());
 
 		}
-
 
 	}
 }
