@@ -7,14 +7,23 @@
 			@* <a href="/" class="navbar-brand">BookWeb</a> *@
 			<a href="/" class="navbar-brand"><img src="/img/logo.png" width="40" height="40"></a>
 			<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
+				@*Authenticated olmadığı sürece navbarda bir uyarı geçsin*@
+				@if (!User.Identity!.IsAuthenticated)
+				{
+					<li class="nav-item">
+						Book Web - Digital Library
+					</li>
+				}
+
 				@if (User.Identity!.IsAuthenticated)
 				{
 					<li class="nav-item">
 						<a href="/books/list" class="nav-link">Books</a>
 					</li>
 				}
-				@* @if (User.Identity!.IsAuthenticated && User.IsInRole("admin"))
-				{ *@
+				@if (User.Identity!.IsAuthenticated && User.IsInRole("admin"))
+				{
 					<li class="nav-item">
 						<a href="/admin/booklist" class="nav-link">Panel Books</a>
 					</li>
@@ -36,7 +45,7 @@
 					<li class="nav-item">
 						<a href="/roles/index" class="nav-link">Roles</a>
 					</li>
-				@* } *@
+				}
 			</ul>
 
 			<ul class="navbar-nav ms-auto">

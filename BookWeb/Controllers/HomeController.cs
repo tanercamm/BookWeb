@@ -1,13 +1,16 @@
 using System.Diagnostics;
 using BookWeb.Data;
 using BookWeb.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BookWeb.Controllers
 {
+	[Authorize]
 	public class HomeController : Controller
 	{
 		private readonly BookContext _context;
+
 		public HomeController(BookContext context)
 		{
 			_context = context;

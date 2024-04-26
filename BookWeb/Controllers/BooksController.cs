@@ -1,10 +1,12 @@
 ﻿using BookWeb.Data;
 using BookWeb.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace BookWeb.Controllers
 {
+	[Authorize]
 	public class BooksController : Controller
 	{
 		private readonly BookContext _context;

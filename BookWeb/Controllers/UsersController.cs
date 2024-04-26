@@ -1,11 +1,13 @@
 ﻿using BookWeb.Entity;
 using BookWeb.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace BookWeb.Controllers
 {
+	[Authorize(Roles = "admin")]
 	public class UsersController : Controller
 	{
 		private readonly UserManager<AppUser> _userManager;

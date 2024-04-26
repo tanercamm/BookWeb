@@ -20,3 +20,8 @@ html {
 body {
     margin-bottom: 60px;
 }
+
+.nav-item {
+    font-family: Arial, sans-serif; /* Metnin fontunu belirle */
+    color: #5EFFC1; /*  24FF95 Yeþil tonunda bir renk seç */
+}
