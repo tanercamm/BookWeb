@@ -51,11 +51,54 @@ namespace BookWeb.Controllers
 			return View("Books", model);
 		}
 
+		// Kitap için yazar bilgilerini almak için bir metot
+		public IActionResult GetAuthorInfoForBook(int bookId)
+		{
+			// Belirli bir kitabın AuthorId değerine göre ilgili yazarın bilgilerini al
+			var book = _context.Books
+							   .Include(b => b.Author)
+							   .FirstOrDefault(b => b.BookId == bookId);
+
+			// Eğer kitap null değilse ve yazar bilgisi varsa, yazar bilgilerini görüntüle
+			if (book != null && book.Author != null)
+			{
+				var authorFullName = book.Author.FullName;
+				// Diğer yazar bilgilerini kullanabilirsiniz.
+				return Ok(new { AuthorFullName = authorFullName});
+			}
+			else
+			{
+				return NotFound(); // Kitap veya yazar bulunamazsa 404 döndür
+			}
+		}
+
+
 		public IActionResult Details(int id)
 		{
 			var book = _context.Books.Find(id);
+
+			if (book == null)
+			{
+				return NotFound();
+			}
+
+			// Eğer kitap bulunursa, yazar bilgilerini almak için GetAuthorInfoForBook metodunu çağır
+			var authorInfoResult = GetAuthorInfoForBook(book.BookId);
+
+			// Eğer yazar bilgileri başarıyla alınırsa, yazar bilgilerini ViewData üzerinden Details.cshtml görünümüne gönder
+			if (authorInfoResult is OkObjectResult okResult)
+			{
+				var authorInfo = okResult.Value as dynamic;
+				ViewData["AuthorFullName"] = authorInfo.AuthorFullName;
+
+				ViewData["AuthorId"] = book.AuthorId;
+
+			}
+
 			return View(book);
 		}
+
+
 
 	}
 }

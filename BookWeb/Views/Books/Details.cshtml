@@ -7,7 +7,13 @@
 		</div>
 		<div class="col-md-9">
 			<div class="card-body">
-				<h5 class="card-title">@Model.Title</h5>
+
+				<a href="@Url.Action("AuthorDetails", "Author", new { id = ViewData["AuthorId"] } )" class="custom-link" >@ViewData["AuthorFullName"]</a>
+				<h4 class="card-title">@Model.Title</h4>
+				
+
+
+
 				<h6 class="card-title">@Model.Publisher</h6>
 				<p>Page Count: <span>(@Model.PageCount)</span></p>
 				<p class="card-text">@Html.Raw(Model.Description)</p>
@@ -15,3 +21,9 @@
 		</div>
 	</div>
 </div>
+
+<style>
+	.custom-link {
+		font-size: 22px;
+	}
+</style>
