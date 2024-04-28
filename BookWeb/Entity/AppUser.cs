@@ -6,5 +6,7 @@ namespace BookWeb.Entity
     {
         public string? FullName { get; set; }
         public string? ImageUrl { get; set; }
-    }
+		public List<UserBook> Books { get; set; }
+
+	}
 }

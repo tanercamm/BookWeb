@@ -16,6 +16,8 @@ namespace BookWeb.Data
 
 		public DbSet<Author> Authors { get; set; }
 
+		public DbSet<UserBook> UserBooks { get; set; }
+
 		// entity'lerin özellik tanımlamasını burada işleyebiliriz 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
@@ -24,6 +26,8 @@ namespace BookWeb.Data
 			// Movie ve Genre entity'lerinin özelliklerini belirtebiliriz
 			modelBuilder.Entity<Book>().Property(b => b.Title).IsRequired().HasMaxLength(30);
 			modelBuilder.Entity<Genre>().Property(b => b.Name).IsRequired().HasMaxLength(25);
+
+			modelBuilder.Entity<UserBook>().HasKey(ub => new { ub.UserId, ub.BookId });
 
 		}
 	}

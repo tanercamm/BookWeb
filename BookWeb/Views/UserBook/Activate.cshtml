@@ -1,0 +1,56 @@
+﻿@model UserBookViewModel
+
+<div class="card">
+	<div class="row">
+
+		<div class="col-md-3">
+			<img src="/book/@Model.BookImageUrl" class="card-img" />
+		</div>
+
+		<div class="col-md-6">
+			<div class="card-header">
+				<h5>Book Content</h5>
+			</div>
+			<div class="card-body">
+				<a href="@Url.Action("AuthorDetails", "Author", new { id = ViewData["AuthorId"] } )" class="custom-link">→ @ViewData["AuthorFullName"]</a>
+				<h4 class="card-title">→ @Model.BookTitle</h4>
+				<h6 class="card-title"> @Model.BookPublisher</h6>
+				<p class="card-text"> @Html.Raw(Model.BookDescription)</p>
+				@* <button type="button" class="btn btn-outline-success">Aktive Et</button> *@
+				<form method="post" action="@Url.Action("ActivateBook", "UserBook", new { bookId = Model.BookId })" style="position: absolute; bottom: 10px; right: 10px;">
+					<button type="submit" class="btn btn-outline-success">Aktive Et</button>
+				</form>
+
+			</div>
+		</div>
+
+		<div class="col-md-3">
+			<div class="card-header">
+				<h5>Informations</h5>
+			</div>
+			<div class="card-body">
+				@*Buraya User bilgileri gelecek, FullName-UserName-Email bilgileri gelecek *@
+				<h6>Full Name : @Model.UserFullName</h6>
+				<h6>UserName : @Model.UserUserName</h6>
+				<h6>Email : @Model.UserEmail</h6>
+				<br />
+
+			</div>
+			<div class="card-footer">
+				<h6>Contact Us 🗣️</h6>
+				<p>If you have any questions, suggestions, or feedback, please contact us via email. We will respond to you as soon as possible.</p>
+				<a href="mailto:info@bookweb.com">→ Contact Us</a>
+				<br />
+				<br />
+				<p>- <a href="/Home/Index">BookWeb</a> Team</p>
+			</div>
+		</div>
+
+	</div>
+</div>
+
+<style>
+	.custom-link {
+		font-size: 22px;
+	}
+</style>

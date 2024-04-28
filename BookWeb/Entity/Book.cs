@@ -21,7 +21,10 @@
 
         public int AuthorId { get; set; } // Her kitabın yalnızca bir yazarı olacağı için
         public Author Author { get; set; }
-    }
+
+		public List<UserBook> Users { get; set; }
+
+	}
 
     // bir kitap için birden fazla tür olabilir
 }
