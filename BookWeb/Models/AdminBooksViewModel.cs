@@ -18,6 +18,7 @@ namespace BookWeb.Models
 		public string Publisher { get; set; }
 		public string PageCount { get; set; }
 		public string ImageUrl { get; set; }
+		public bool IsActive { get; set; }
 		public List<Genre> Genres { get; set; }
 		public AuthorEditViewModel Author { get; set; }
 	}
@@ -53,6 +54,15 @@ namespace BookWeb.Models
 
 		public List<AuthorEditViewModel> Authors { get; set; }
 
+		[Display(Name = "Aktif mi?")]
+		public bool IsActive { get; set; }
+
+		public AdminCreateBookViewModel()
+		{
+			// Set IsActive to default value
+			IsActive = true;
+		}
+
 	}
 
 
@@ -74,7 +84,6 @@ namespace BookWeb.Models
 		[Required(ErrorMessage = "Yazar seçmelisiniz!")]
 		public int AuthorId { get; set; } // Yazarın ID'si
 
-
 		[Display(Name = "Yayınevi")]
 		[Required(ErrorMessage = "Yayınevi ismi girmelisiniz!")]
 		[StringLength(30, MinimumLength = 3, ErrorMessage = "Yayınevi ismi 3-30 aralığında olmalıdır.")]
@@ -91,7 +100,10 @@ namespace BookWeb.Models
 		public int[] GenreIds { get; set; }
 
 		public List<AuthorEditViewModel> Authors { get; set; }
-	}
 
+		[Display(Name = "Aktif mi?")]
+		public bool IsActive { get; set; }
+
+	}
 
 }

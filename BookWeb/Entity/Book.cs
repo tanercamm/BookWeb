@@ -12,7 +12,10 @@
 
         public string PageCount { get; set; }  // sayfa sayısı
 
-		public string ImageUrl { get; set; }
+        public string ImageUrl { get; set; }
+
+		// kitabın sahip edilebilirliğine bakılabilmesi gerekiyor
+		public bool IsActive { get; set; }
 
 		public List<Genre> Genres { get; set; }
 

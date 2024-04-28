@@ -40,6 +40,9 @@ namespace BookWeb.Controllers
 
 				if (result.Succeeded)
 				{
+					// Kullanıcı başarıyla kaydedildi, rol ataması yapılacak
+					await _userManager.AddToRoleAsync(user, "customer");
+
 					// Başarılı kayıt işlemi
 					return RedirectToAction("Login", "Account");
 				}

@@ -113,6 +113,7 @@ namespace BookWeb.Controllers
 								Publisher = m.Publisher,
 								PageCount = m.PageCount,
 								ImageUrl = m.ImageUrl,
+								IsActive = m.IsActive,
 								Genres = m.Genres.ToList(),
 								Author = new AuthorEditViewModel
 								{
@@ -141,6 +142,7 @@ namespace BookWeb.Controllers
 				Publisher = b.Publisher,
 				PageCount = b.PageCount,
 				ImageUrl = b.ImageUrl,
+				IsActive = b.IsActive,
 				AuthorId = b.AuthorId,
 				GenreIds = b.Genres.Select(g => g.GenreId).ToArray()
 			})
@@ -179,6 +181,7 @@ namespace BookWeb.Controllers
 				entity.Description = model.Description;
 				entity.Publisher = model.Publisher;
 				entity.PageCount = model.PageCount;
+				entity.IsActive = model.IsActive;
 
 				if (file != null)
 				{

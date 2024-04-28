@@ -45,6 +45,11 @@
 				<span asp-validation-for="AuthorId" class="text-danger"></span>
 			</div>
 			<br />
+			<div class="mb-3 form-check">
+				<input type="checkbox" asp-for="IsActive" class="form-check-input" />
+				<label class="form-check-label" for="IsActive">Aktif mi?</label>
+			</div>
+			<br />
 			<div class="mb-3">
 				<input type="hidden" name="ImageUrl" value="@Model.ImageUrl" />
 				<input type="file" name="file" class="form-control" />
@@ -53,6 +58,8 @@
 			<br />
 			<button type="submit" class="btn btn-primary">Submit</button>
 		</div>
+
+		@*Genre Control*@
 		<div class="col-md-4">
 
 			@foreach (var item in (List<Genre>)ViewBag.Genres)

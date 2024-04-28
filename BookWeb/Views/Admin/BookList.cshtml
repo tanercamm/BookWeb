@@ -12,6 +12,7 @@
 			<th style="width:150px">Publisher</th>
 			<th style="width:30px">PageCount</th>
 			<th style="width:200px">Genres</th>
+			<th style="width:200px">Status</th>
 			<th style="width:160px"></th>
 		</tr>
 	</thead>
@@ -35,7 +36,16 @@
 						}
 					</ul>
 				</td>
-				
+
+				@if (book.IsActive)
+				{
+					<td style="color: green;">Aktif</td>
+				}
+				else
+				{
+					<td style="color: red;">Pasif</td>
+				}
+
 				<td>
 					<a href="/admin/bookedit/@book.BookId" class="btn btn-primary btn-sm">Edit</a>
 					<form action="/admin/bookdelete" method="post" style="display: inline">
