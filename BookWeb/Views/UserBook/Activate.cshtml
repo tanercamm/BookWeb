@@ -17,8 +17,21 @@
 				<h6 class="card-title"> @Model.BookPublisher</h6>
 				<p class="card-text"> @Html.Raw(Model.BookDescription)</p>
 				@* <button type="button" class="btn btn-outline-success">Aktive Et</button> *@
-				<form method="post" action="@Url.Action("ActivateBook", "UserBook", new { bookId = Model.BookId })" style="position: absolute; bottom: 10px; right: 10px;">
-					<button type="submit" class="btn btn-outline-success">Aktive Et</button>
+				@* <form method="post" action="@Url.Action("Activate", "UserBook", new { id = Model.BookId })" style="position: absolute; bottom: 10px; right: 10px;">
+				<button type="submit" class="btn btn-outline-success">Aktive Et</button>
+				</form> *@
+				<form method="post" action="@Url.Action("Activate", "UserBook")" style="position: absolute; bottom: 10px; right: 10px;">
+					<input type="hidden" name="BookId" value="@Model.BookId" />
+					<input type="hidden" name="UserId" value="@Model.UserId" />
+					<input type="hidden" name="BookDescription" value="@Model.BookDescription" />
+					<input type="hidden" name="BookTitle" value="@Model.BookTitle" />
+					<input type="hidden" name="BookPublisher" value="@Model.BookPublisher" />
+					<input type="hidden" name="BookImageUrl" value="@Model.BookImageUrl" />
+					<input type="hidden" name="UserFullName" value="@Model.UserFullName" />
+					<input type="hidden" name="UserUserName" value="@Model.UserUserName" />
+					<input type="hidden" name="UserEmail" value="@Model.UserEmail" />
+
+					<button type="submit" class="btn btn-outline-success">Activate</button>
 				</form>
 
 			</div>
@@ -32,7 +45,7 @@
 				@*Buraya User bilgileri gelecek, FullName-UserName-Email bilgileri gelecek *@
 				<h6>Full Name : @Model.UserFullName</h6>
 				<h6>UserName : @Model.UserUserName</h6>
-				<h6>Email : @Model.UserEmail</h6>
+				<h6>Email : <a href="mailto:@Model.UserEmail">@Model.UserEmail</a></h6>
 				<br />
 
 			</div>

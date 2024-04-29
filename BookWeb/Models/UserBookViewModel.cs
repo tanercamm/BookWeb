@@ -14,5 +14,6 @@
 		public string UserFullName { get; set; }
 		public string UserUserName { get; set; }
 		public string UserEmail { get; set; }
+
 	}
 }

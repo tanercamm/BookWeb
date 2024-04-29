@@ -19,18 +19,18 @@ namespace BookWeb.Controllers
 		}
 
 		// Kitap için yazar bilgilerini almak için bir metot
-		public IActionResult GetAuthorInfoForBook(int bookId)
+		public async Task<IActionResult> GetAuthorInfoForBook(int bookId)
 		{
 			// Belirli bir kitabın AuthorId değerine göre ilgili yazarın bilgilerini al
-			var book = _context.Books
+			var book = await _context.Books
 							   .Include(b => b.Author)
-							   .FirstOrDefault(b => b.BookId == bookId);
+							   .FirstOrDefaultAsync(b => b.BookId == bookId);
 
 			// Eğer kitap null değilse ve yazar bilgisi varsa, yazar bilgilerini görüntüle
 			if (book != null && book.Author != null)
 			{
 				var authorFullName = book.Author.FullName;
-				// Diğer yazar bilgilerini kullanabilirsiniz.
+
 				return Ok(new { AuthorFullName = authorFullName });
 			}
 			else
@@ -41,7 +41,7 @@ namespace BookWeb.Controllers
 
 		public async Task<IActionResult> Activate(int id)
 		{
-			var book = _context.Books.Find(id);
+			var book = await _context.Books.FindAsync(id);
 
 			if (book == null)
 			{
@@ -52,7 +52,7 @@ namespace BookWeb.Controllers
 			var user = await _userManager.GetUserAsync(User);
 
 			// Eğer kitap bulunursa, yazar bilgilerini almak için GetAuthorInfoForBook metodunu çağır
-			var authorInfoResult = GetAuthorInfoForBook(book.BookId);
+			var authorInfoResult = await GetAuthorInfoForBook(book.BookId);
 
 			// Eğer yazar bilgileri başarıyla alınırsa, yazar bilgilerini ViewData üzerinden Activate.cshtml görünümüne gönder
 			if (authorInfoResult is OkObjectResult okResult)
@@ -81,7 +81,7 @@ namespace BookWeb.Controllers
 		}
 
 		[HttpPost]
-		public async Task<IActionResult> ActivateBook(UserBookViewModel viewModel)
+		public async Task<IActionResult> Activate(UserBookViewModel viewModel)
 		{
 			if (ModelState.IsValid)
 			{
@@ -95,7 +95,7 @@ namespace BookWeb.Controllers
 				{
 					// Kullanıcı zaten bir kitabı aktive etmiş, işlemi gerçekleştiremeyiz
 					ModelState.AddModelError("", "Zaten aktive edilmiş kitabınız var. Lütfen yenisini etkinleştirmeden önce iade ediniz!");
-					return View(viewModel);
+					return View("Index", "Home");
 				}
 
 				// Kullanıcının daha önce bu kitabı aktive edip etmediğini kontrol edelim
@@ -107,6 +107,14 @@ namespace BookWeb.Controllers
 					// Kullanıcı bu kitabı daha önce aktive etmiş, sadece aktif hale getirelim
 					existingUserBook.IsActive = true;
 					existingUserBook.IsPrimaryAccess = true;
+
+					// Kitabın IsActive durumunu false yap
+					var bookToUpdate = await _context.Books.FindAsync(viewModel.BookId);
+					if (bookToUpdate != null)
+					{
+						bookToUpdate.IsActive = false;
+					}
+
 				}
 				else
 				{
@@ -120,21 +128,34 @@ namespace BookWeb.Controllers
 					};
 
 					_context.UserBooks.Add(newUserBook);
+
+					// Kitabın IsActive durumunu false yap
+					var bookToUpdate = await _context.Books.FindAsync(viewModel.BookId);
+					if (bookToUpdate != null)
+					{
+						bookToUpdate.IsActive = false;
+					}
 				}
 
 				await _context.SaveChangesAsync();
 
-				return RedirectToAction("Index", "Home"); // Eğer işlem başarılıysa ana sayfaya yönlendir
+				TempData["SuccessMessage"] = "Kitabı başarıyla etkinleştirdiniz!";
+				return RedirectToAction("Index", "Home");
 			}
+			else
+			{
+				// ModelState hatalarını kullanıcıya gösterin
+				foreach (var modelStateValue in ModelState.Values)
+				{
+					foreach (var error in modelStateValue.Errors)
+					{
+						ModelState.AddModelError("", error.ErrorMessage);
+					}
+				}
 
-			// Eğer model geçerli değilse, View'a geri dön ve hataları göster
-			return View(viewModel);
-		}
-
-		public IActionResult ActivateBookPage(int bookId)
-		{
-			// Kitabın ID'sini alarak aktivasyon sayfasına yönlendirme
-			return RedirectToAction("ActivateBook", "UserBook", new { bookId = bookId });
+				// Activate View'ını tekrar gösterin
+				return View(viewModel);
+			}
 		}
 
 	}

@@ -13,9 +13,7 @@
 				<h6 class="card-title">@Model.Publisher</h6>
 				<p>Page Count: <span>(@Model.PageCount)</span></p>
 				<p class="card-text">@Html.Raw(Model.Description)</p>
-				@* <button type="button" class="btn btn-outline-success">Aktive Et</button> *@
-				<a href="@Url.Action("Activate", "UserBook", new { id = Model.BookId })" class="btn btn-outline-success">Aktive Et</a>
-
+				<a href="@Url.Action("Activate", "UserBook", new { id = Model.BookId })" class="btn btn-outline-primary">Review</a>
 			</div>
 		</div>
 	</div>
