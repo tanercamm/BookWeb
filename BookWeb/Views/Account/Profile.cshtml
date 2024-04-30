@@ -1,0 +1,76 @@
+﻿@model UserProfileViewModel
+
+@{
+	ViewData["Title"] = "Profile -";
+}
+
+<div class="container">
+	@*ALERT*@
+	<div id="successMessageContainer"></div>
+	<div id="errorMessageContainer"></div>
+	@if (!string.IsNullOrEmpty(TempData["SuccessMessage"] as string))
+	{
+		<div id="successAlert" class="alert alert-success alert-dismissible fade show" role="alert">
+			@TempData["SuccessMessage"]
+			<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+		</div>
+	}
+	@if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
+	{
+		<div id="errorAlert" class="alert alert-danger alert-dismissible fade show" role="alert">
+			@ViewBag.ErrorMessage
+			<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+		</div>
+	}
+	@*ALERT*@
+	<h1>Profile</h1>
+	<hr />
+	<div class="row">
+		<div class="col-md-6">
+			<h3>Kullanıcı Bilgileri</h3>
+			<hr />
+			<p><img src="/users/@Model.ImageUrl" alt="Profil Resmi" class="img-fluid  img-profile"></p>
+			<p><strong>FullName :</strong> @Model.FullName</p>
+			<p><strong>UserName :</strong> @Model.UserName</p>
+			<p><strong>Email :</strong> <a href="mailto:@Model.Email">@Model.Email</a></p>
+		</div>
+		<div class="col-md-6">
+			<h3>Sahip Olunan Kitap</h3>
+			<hr />
+			@if (Model.UserBooks != null && Model.UserBooks.Any())
+			{
+				<ul>
+					@foreach (var userBook in Model.UserBooks)
+					{
+						<li>
+							<img src="/book/@userBook.BookImageUrl" alt="@userBook.BookTitle" class="img-thumbnail  img-book">
+							<h4>@userBook.BookTitle</h4>
+							<p><strong>Publisher:</strong> @userBook.BookPublisher</p>
+						</li>
+						<hr />
+					}
+				</ul>
+			}
+			else
+			{
+				<div class="alert alert-warning alert-dismissible fade show" role="alert">
+					<strong>You haven't added any books yet!</strong> You can browse the book area.
+				</div>
+			}
+		</div>
+	</div>
+</div>
+
+<script>
+	$(document).ready(function () {
+		// Başarılı mesajın kapatılması için
+		$("#successAlert .btn-close").click(function () {
+			$("#successAlert").alert('close');
+		});
+
+		// Hata mesajının kapatılması için
+		$("#errorAlert .btn-close").click(function () {
+			$("#errorAlert").alert('close');
+		});
+	});
+</script>

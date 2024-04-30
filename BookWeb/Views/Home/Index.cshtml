@@ -5,33 +5,18 @@
 	@await Html.PartialAsync("_header")
 }
 
-@{
-	var errorMessage = TempData["ErrorMessage"] as string;
-}
-
-<div id="liveAlertPlaceholder">
-	@if (!string.IsNullOrEmpty(errorMessage))
-	{
-		<div class="alert alert-danger alert-dismissible fade show" role="alert">
-			@errorMessage
-			<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-		</div>
-	}
-</div>
-
-
 <h1>Kitap Listesi</h1>
 <hr />
 
 <div id="kitaplar">
-		<div class="card-group row-cols-md-3">
-			@foreach (var book in Model.PopularBooks)
-			{
-				<div class="col-md-3 mb-6">
-					@await Html.PartialAsync("_books", book)
-				</div>
-			}
-		</div>
+	<div class="card-group row-cols-md-3">
+		@foreach (var book in Model.PopularBooks)
+		{
+			<div class="col-md-3 mb-6">
+				@await Html.PartialAsync("_books", book)
+			</div>
+		}
+	</div>
 </div>
 
 @*PAGINATION*@
@@ -44,43 +29,9 @@
 	</ul>
 </nav>
 
-@section scripts {
-	<script>
-		document.getElementById("liveAlertBtn").addEventListener("click", function () {
-			// Bildirimi güncelle
-			var alertDiv = document.querySelector('#liveAlertPlaceholder .alert');
-			if (alertDiv) {
-				alertDiv.innerHTML = `
-							<strong>Success!</strong> Your message here.
-							<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-						`;
-			} else {
-				// Yeni bir bildirim oluştur
-				alertDiv = document.createElement("div");
-				alertDiv.classList.add("alert", "alert-primary", "alert-dismissible", "fade", "show");
-				alertDiv.setAttribute("role", "alert");
-
-				alertDiv.innerHTML = `
-							<strong>Success!</strong> Your message here.
-							<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-						`;
-
-				// Canlı bildirim alanına ekle
-				document.getElementById("liveAlertPlaceholder").appendChild(alertDiv);
-			}
-
-			// Bildirimi otomatik olarak kapat
-			setTimeout(function () {
-				alertDiv.remove();
-			}, 5000); // 5 saniye sonra kapat
-		});
-	</script>
-}
 
 
-
-
-@* <script>
+<script>
 	function changePage(pageNumber) {
 		// Tıklanan sayfa düğmesini aktif hale getir
 		var activeButton = document.querySelector('.pagination .page-item:nth-child(' + pageNumber + ')');
@@ -95,4 +46,4 @@
 		// Tıklanan düğmenin arka plan rengini değiştir
 		activeButton.style.backgroundColor = 'darkgray';
 	}
-</script> *@
+</script>

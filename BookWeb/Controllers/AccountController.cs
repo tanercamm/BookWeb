@@ -1,19 +1,23 @@
-﻿using BookWeb.Entity;
+﻿using BookWeb.Data;
+using BookWeb.Entity;
 using BookWeb.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace BookWeb.Controllers
 {
 	public class AccountController : Controller
 	{
+		private readonly BookContext _context;
 		private readonly UserManager<AppUser> _userManager;
 		private readonly SignInManager<AppUser> _signInManager;
 
-		public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager)
+		public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, BookContext context)
 		{
 			_userManager = userManager;
 			_signInManager = signInManager;
+			_context = context;
 		}
 
 		// REGİSTER
@@ -115,5 +119,47 @@ namespace BookWeb.Controllers
 			return RedirectToAction("Login");
 		}
 
-	}
+        [HttpGet]
+        public async Task<IActionResult> Profile()
+        {
+            var user = await _userManager.GetUserAsync(User);
+
+            if (user == null)
+            {
+                return RedirectToAction("Login");
+            }
+
+            var model = new UserProfileViewModel
+            {
+                FullName = user.FullName,
+                UserName = user.UserName,
+                Email = user.Email,
+                ImageUrl = user.ImageUrl
+            };
+
+            var userBooks = _context.UserBooks
+                .Where(ub => ub.UserId == user.Id && ub.IsActive)
+                .Select(ub => new UserBookViewModel
+                {
+                    BookId = ub.BookId,
+                    BookTitle = ub.Book.Title,
+                    BookPublisher = ub.Book.Publisher,
+                    BookDescription = ub.Book.Description,
+                    BookImageUrl = ub.Book.ImageUrl,
+                    UserId = user.Id,
+                    UserFullName = user.FullName,
+                    UserUserName = user.UserName,
+                    UserEmail = user.Email
+                })
+                .ToList();
+
+            model.UserBooks = userBooks;
+
+            return View(model);
+        }
+
+
+
+
+    }
 }

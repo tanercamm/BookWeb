@@ -53,11 +53,24 @@
 		</footer>
 	}
 
-	<script src="~/lib/jquery/dist/jquery.min.js"></script>
-	<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha384-KyZXEAg3QhqLMpG8r+Knujsl5+z72sJQ/cT2w1CvbXQfoxy2k1tHv7kRG5wfm2xr" crossorigin="anonymous"></script>
-	<script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.3/js/bootstrap.bundle.min.js" integrity="sha384-XB4sMmEYQ3+tkTfCW33WGN5Z7/w9Iq5uBSxGLOzSLtF+3vRW4q1Vg0U0S6BkT0G7" crossorigin="anonymous"></script>
+	<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 	<script src="~/js/site.js" asp-append-version="true"></script>
 	@await RenderSectionAsync("Scripts", required: false)
+
+	<script>
+		$(document).ready(function () {
+			// Başarılı mesajın kapatılması için
+			$("#successAlert .btn-close").click(function () {
+				$("#successAlert").alert('close');
+			});
+
+			// Hata mesajının kapatılması için
+			$("#errorAlert .btn-close").click(function () {
+				$("#errorAlert").alert('close');
+			});
+		});
+	</script>
+
 </body>
 </html>

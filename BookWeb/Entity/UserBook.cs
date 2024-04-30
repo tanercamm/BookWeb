@@ -14,7 +14,5 @@ namespace BookWeb.Entity
 
 		public bool IsActive { get; set; }
 
-		// Kullanıcının sadece bir kitaba erişimini izlemek için alan
-		public bool IsPrimaryAccess { get; set; }
 	}
 }
