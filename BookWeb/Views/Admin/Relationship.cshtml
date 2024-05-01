@@ -1,0 +1,49 @@
+﻿@model List<UserBookViewModel>
+
+@{
+	ViewData["Title"] = "Relationships";
+}
+
+<h1>User/Book Relationships</h1>
+<hr />
+
+<table class="table table-striped table-hover table-bordered">
+	<thead>
+		<tr>
+			<th>UserId</th>
+			<th>UserFullName</th>
+			<th>UserUserName</th>
+			<th>UserEmail</th>
+			<th>BookId</th>
+			<th>BookImageUrl</th>
+			<th>BookTitle</th>
+			<th>BookPublisher</th>
+		</tr>
+	</thead>
+	<tbody>
+		@if (Model.Any())
+		{
+			@foreach (var userBook in Model)
+			{
+				<tr>
+					<td>@userBook.UserId</td>
+					<td>@userBook.UserFullName</td>
+					<td>@userBook.UserUserName</td>
+					<td>@userBook.UserEmail</td>
+					<td>@userBook.BookId</td>
+					<td><img src="/book/@userBook.BookImageUrl" width="80" /></td>
+					<td>@userBook.BookTitle</td>
+					<td>@userBook.BookPublisher</td>
+				</tr>
+			}
+		}
+		else
+		{
+			<div class="col">
+				<div class="alert alert-info" role="alert">
+					You haven't activated any books yet.
+				</div>
+			</div>
+		}
+	</tbody>
+</table>

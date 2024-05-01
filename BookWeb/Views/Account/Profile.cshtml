@@ -15,10 +15,10 @@
 			<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 		</div>
 	}
-	@if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
+	@if (!string.IsNullOrEmpty(TempData["ErrorMessage"] as string))
 	{
 		<div id="errorAlert" class="alert alert-danger alert-dismissible fade show" role="alert">
-			@ViewBag.ErrorMessage
+			@TempData["ErrorMessage"]
 			<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 		</div>
 	}

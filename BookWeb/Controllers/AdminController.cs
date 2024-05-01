@@ -270,7 +270,31 @@ namespace BookWeb.Controllers
 			return RedirectToAction("GenreList");
 		}
 
+        // USER - BOOK => RELATİONSHİP
+
+        public IActionResult Relationship()
+        {
+            var userBooksFromDb = _context.UserBooks
+                .Include(ub => ub.Book)
+                .Include(ub => ub.User)
+                .ToList();
+
+            var userBookViewModels = userBooksFromDb.Select(ub => new UserBookViewModel
+            {
+                BookId = ub.BookId,
+                BookTitle = ub.Book.Title,
+                BookPublisher = ub.Book.Publisher,
+                BookDescription = ub.Book.Description,
+                BookImageUrl = ub.Book.ImageUrl,
+                UserId = ub.UserId,
+                UserFullName = ub.User.FullName,
+                UserUserName = ub.User.UserName,
+                UserEmail = ub.User.Email
+            }).ToList();
+
+            return View(userBookViewModels);
+        }
 
 
-	}
+    }
 }
