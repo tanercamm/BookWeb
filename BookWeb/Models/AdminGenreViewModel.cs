@@ -2,15 +2,6 @@
 
 namespace BookWeb.Models
 {
-    public class AdminGenresViewModel
-    {
-        [Required(ErrorMessage = "Tür bilgisi girmelisiniz!")]
-        [StringLength(25)]
-        public string Name { get; set; }
-
-        public List<AdminGenreViewModel> Genres { get; set; }
-    }
-
     // count parametresi ekliyoruz bu sebeple artık bunu kullanacağız
     public class AdminGenreViewModel
     {
@@ -21,17 +12,28 @@ namespace BookWeb.Models
         public int Count { get; set; }
     }
 
-    // edit genre model
-    public class AdminGenreEditViewModel
+    public class AdminGenreGetViewModel
     {
+        public AdminGenreGetViewModel()
+        {
+            Books = new List<AdminWithoutAuthorBookViewModel>();
+        }
+
         public int GenreId { get; set; }
 
         [Required(ErrorMessage = "Tür bilgisi girmelisiniz!")]
         [StringLength(25)]
         public string Name { get; set; }
 
-        public List<AdminGenreViewModel> Books { get; set; }
+        public List<AdminWithoutAuthorBookViewModel> Books { get; set; }
+    }
 
+    // count parametresi ekliyoruz bu sebeple artık bunu kullanacağız
+    public class AdminGenreEditViewModel
+    {
+        public int GenreId { get; set; }
+
+        public string Name { get; set; }
     }
 
 }

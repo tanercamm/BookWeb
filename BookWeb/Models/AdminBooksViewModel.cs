@@ -7,7 +7,6 @@ namespace BookWeb.Models
 	public class AdminBooksViewModel
 	{
 		public List<AdminBookViewModel> Books { get; set; }
-
 	}
 
 	// description olmadan bir model yazıyoruz
@@ -22,6 +21,16 @@ namespace BookWeb.Models
 		public List<Genre> Genres { get; set; }
 		public AuthorEditViewModel Author { get; set; }
 	}
+
+	public class AdminWithoutAuthorBookViewModel
+	{
+        public int BookId { get; set; }
+        public string Title { get; set; }
+        public string Publisher { get; set; }
+        public string PageCount { get; set; }
+        public string ImageUrl { get; set; }
+        public List<Genre> Genres { get; set; }
+    }
 
 	public class AdminCreateBookViewModel
 	{
@@ -64,7 +73,6 @@ namespace BookWeb.Models
 		}
 
 	}
-
 
 	public class AdminEditBookViewModel
 	{
