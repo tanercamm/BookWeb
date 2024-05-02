@@ -15,5 +15,6 @@
 		public string UserUserName { get; set; }
 		public string UserEmail { get; set; }
 
+		public bool IsActive { get; set; }
 	}
 }

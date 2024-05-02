@@ -22,7 +22,7 @@ namespace BookWeb.Controllers
 		{
 			//IEnumerable belleğe atıp, ardından sorgular
 			//IQueryable direkt olarak server üzerinden sorgular (hız avantajı)
-			var books = _context.Books.AsQueryable();
+			var books = _context.Books.Where(b => b.IsEmpty).AsQueryable();
 
 			// tür id göre kimlik atıyoruz
 			if (id != null)

@@ -46,6 +46,10 @@
 							<img src="/book/@userBook.BookImageUrl" alt="@userBook.BookTitle" class="img-thumbnail  img-book">
 							<h4>@userBook.BookTitle</h4>
 							<p><strong>Publisher:</strong> @userBook.BookPublisher</p>
+							<br />
+							<form method="post" asp-controller="UserBook" asp-action="Deliver" asp-route-bookId="@userBook.BookId">
+								<button type="submit" class="btn btn-danger">Deliver</button>
+							</form>
 						</li>
 						<hr />
 					}

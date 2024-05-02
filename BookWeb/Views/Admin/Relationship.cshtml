@@ -18,6 +18,7 @@
 			<th>BookImageUrl</th>
 			<th>BookTitle</th>
 			<th>BookPublisher</th>
+			<th>Status</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -29,11 +30,19 @@
 					<td>@userBook.UserId</td>
 					<td>@userBook.UserFullName</td>
 					<td>@userBook.UserUserName</td>
-					<td>@userBook.UserEmail</td>
+					<td><a href="mailto:@userBook.UserEmail">@userBook.UserEmail</a></td>
 					<td>@userBook.BookId</td>
 					<td><img src="/book/@userBook.BookImageUrl" width="80" /></td>
 					<td>@userBook.BookTitle</td>
 					<td>@userBook.BookPublisher</td>
+					@if (userBook.IsActive)
+					{
+						<td style="color: green;">Aktive Edilmiş</td>
+					}
+					else
+					{
+						<td style="color: red;">İade Edilmiş</td>
+					}
 				</tr>
 			}
 		}

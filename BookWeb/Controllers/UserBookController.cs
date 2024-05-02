@@ -1,4 +1,5 @@
-﻿using BookWeb.Data;
+﻿using System.Net;
+using BookWeb.Data;
 using BookWeb.Entity;
 using BookWeb.Models;
 using Microsoft.AspNetCore.Identity;
@@ -38,6 +39,8 @@ namespace BookWeb.Controllers
 				return NotFound(); // Kitap veya yazar bulunamazsa 404 döndür
 			}
 		}
+
+		// Kitabı aktive etme
 
 		public async Task<IActionResult> Activate(int id)
 		{
@@ -100,10 +103,8 @@ namespace BookWeb.Controllers
 					return View("Login", "Account");
 				}
 
-				// Kullanıcının daha önce aktif ettiği bir kitabı var mı kontrol edelim
-				var activeUserBooks = _context.UserBooks.Where(ub => ub.UserId == user.Id && ub.IsActive).ToList();
-
-				if (activeUserBooks.Any())
+				var activeUserBook = _context.UserBooks.FirstOrDefault(ub => ub.UserId == user.Id && ub.IsActive);
+				if (activeUserBook != null)
 				{
 					// Kullanıcı zaten aktif bir kitabı var, işlemi gerçekleştiremeyiz
 					ModelState.AddModelError("", "You already have an active book. Please return your current book before activating a new one!");
@@ -111,8 +112,7 @@ namespace BookWeb.Controllers
 					return RedirectToAction("Profile", "Account");
 				}
 
-				var existingUserBook = _context.UserBooks.FirstOrDefault(ub => ub.BookId == viewModel.BookId && ub.IsActive);
-
+				var existingUserBook = _context.UserBooks.FirstOrDefault(ub => ub.UserId == user.Id && ub.BookId == viewModel.BookId && ub.IsActive);
 				if (existingUserBook != null)
 				{
 					// Kitap zaten aktif edilmiş, başka bir kullanıcı tarafından
@@ -120,23 +120,32 @@ namespace BookWeb.Controllers
 					TempData["ErrorMessage"] = "The relevant book was activated by another user. Please try again later!";
 					return RedirectToAction("Profile", "Account");
 				}
-				// Kullanıcı bu kitabı daha önce aktive etmemiş, yeni bir UserBook oluşturalım
-				var newUserBook = new UserBook
+
+				// Kullanıcı bu kitabı daha önce aktive etmemiş, yeni bir UserBook oluşturalım veya mevcut kitabı aktif hale getirelim
+				var newUserBook = _context.UserBooks.FirstOrDefault(ub => ub.UserId == user.Id && ub.BookId == viewModel.BookId);
+				if (newUserBook != null)
 				{
-					UserId = user.Id,
-					BookId = viewModel.BookId,
-					IsActive = true
-				};
+					// Mevcut kaydı güncelleyin
+					newUserBook.IsActive = true;
+				}
+				else
+				{
+					// Yeni bir kayıt oluşturun
+					newUserBook = new UserBook
+					{
+						UserId = user.Id,
+						BookId = viewModel.BookId,
+						IsActive = true
+					};
+					_context.UserBooks.Add(newUserBook);
+				}
 
-				_context.UserBooks.Add(newUserBook);
-
-				// Kitabın IsActive durumunu false yap
+				// Kitabın IsEmpty durumunu false yap
 				var bookToUpdate = await _context.Books.FindAsync(viewModel.BookId);
 				if (bookToUpdate != null)
 				{
-					bookToUpdate.IsActive = false;
+					bookToUpdate.IsEmpty = false;
 				}
-
 
 				await _context.SaveChangesAsync();
 
@@ -156,6 +165,119 @@ namespace BookWeb.Controllers
 				// Activate View'ını tekrar gösterin
 				return View(viewModel);
 			}
+		}
+
+
+		//[HttpPost]
+		//public async Task<IActionResult> Activate(UserBookViewModel viewModel)
+		//{
+		//	if (ModelState.IsValid)
+		//	{
+		//		var user = await _userManager.GetUserAsync(User);
+
+		//		if (user == null)
+		//		{
+		//			ModelState.AddModelError("", "User not found, log in again!");
+		//			TempData["ErrorMessage"] = "User not found, log in again!";
+		//			return View("Login", "Account");
+		//		}
+
+		//		// Kullanıcının daha önce aktif ettiği bir kitabı var mı kontrol edelim
+		//		var activeUserBooks = _context.UserBooks.Where(ub => ub.UserId == user.Id && ub.IsActive).ToList();
+
+		//		if (activeUserBooks.Any())
+		//		{
+		//			// Kullanıcı zaten aktif bir kitabı var, işlemi gerçekleştiremeyiz
+		//			ModelState.AddModelError("", "You already have an active book. Please return your current book before activating a new one!");
+		//			TempData["ErrorMessage"] = "You already have an active book. Please return your current book before activating a new one!";
+		//			return RedirectToAction("Profile", "Account");
+		//		}
+
+		//		//var existingUserBook = _context.UserBooks.FirstOrDefault(ub => ub.BookId == viewModel.BookId && ub.IsActive);
+		//		var existingUserBook = _context.UserBooks.FirstOrDefault(ub => ub.UserId == user.Id && ub.BookId == viewModel.BookId && ub.IsActive);
+
+		//		if (existingUserBook != null)
+		//		{
+		//			// Kitap zaten aktif edilmiş, başka bir kullanıcı tarafından
+		//			ModelState.AddModelError("", "The relevant book was activated by another user. Please try again later!");
+		//			TempData["ErrorMessage"] = "The relevant book was activated by another user. Please try again later!";
+		//			return RedirectToAction("Profile", "Account");
+		//		}
+		//		// Kullanıcı bu kitabı daha önce aktive etmemiş, yeni bir UserBook oluşturalım
+		//		var newUserBook = new UserBook
+		//		{
+		//			UserId = user.Id,
+		//			BookId = viewModel.BookId,
+		//			IsActive = true
+		//		};
+
+		//		_context.UserBooks.Add(newUserBook);
+
+		//		// Kitabın IsEmpty durumunu false yap
+		//		var bookToUpdate = await _context.Books.FindAsync(viewModel.BookId);
+		//		if (bookToUpdate != null)
+		//		{
+		//			bookToUpdate.IsEmpty = false;
+		//		}
+
+
+		//		await _context.SaveChangesAsync();
+
+		//		TempData["SuccessMessage"] = "You have successfully activated the book!";
+		//		return RedirectToAction("Profile", "Account");
+		//	}
+		//	else
+		//	{
+		//		// ModelState hatalarını kullanıcıya gösterin
+		//		foreach (var modelStateValue in ModelState.Values)
+		//		{
+		//			foreach (var error in modelStateValue.Errors)
+		//			{
+		//				ModelState.AddModelError("", error.ErrorMessage);
+		//			}
+		//		}
+		//		// Activate View'ını tekrar gösterin
+		//		return View(viewModel);
+		//	}
+		//}
+
+		// Kitabı teslim etme
+
+		[HttpPost]
+		public async Task<IActionResult> Deliver(int bookId)
+		{
+			var user = await _userManager.GetUserAsync(User);
+
+			if (user == null)
+			{
+				TempData["ErrorMessage"] = "User not found, log in again!";
+				return RedirectToAction("Login", "Account");
+			}
+
+			// Kullanıcının aktif kitabını kontrol et
+			var activeUserBook = _context.UserBooks.FirstOrDefault(ub => ub.UserId == user.Id && ub.BookId == bookId && ub.IsActive);
+
+			if (activeUserBook == null)
+			{
+				// Kullanıcının bu kitabı aktif etme yetkisi yok veya kitap zaten iade edilmiş
+				TempData["ErrorMessage"] = "You don't have permission to deliver this book or the book is already delivered!";
+				return RedirectToAction("Profile", "Account");
+			}
+
+			// Kitabın durumunu false (bağlantılı değil) yapılsın
+			activeUserBook.IsActive = false;
+
+			// Kitabın IsEmpty durumunu true (kullanılabilir) yap
+			var bookToUpdate = await _context.Books.FindAsync(bookId);
+			if (bookToUpdate != null)
+			{
+				bookToUpdate.IsEmpty = true;
+			}
+
+			await _context.SaveChangesAsync();
+
+			TempData["SuccessMessage"] = "You have successfully delivered the book!";
+			return RedirectToAction("Profile", "Account");
 		}
 
 	}

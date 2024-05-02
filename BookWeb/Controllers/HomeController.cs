@@ -22,7 +22,7 @@ namespace BookWeb.Controllers
 		{
 			var model = new HomePageViewModel
 			{
-				PopularBooks = _context.Books.Skip((page - 1) * pageSize).Take(pageSize).ToList(),
+				PopularBooks = _context.Books.Where(b => b.IsEmpty).Skip((page - 1) * pageSize).Take(pageSize).ToList(),
 				PageInfo = new PageInfo()
 				{
 					ItemsPerPage = pageSize,

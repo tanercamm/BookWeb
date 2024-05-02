@@ -17,7 +17,7 @@ namespace BookWeb.Models
 		public string Publisher { get; set; }
 		public string PageCount { get; set; }
 		public string ImageUrl { get; set; }
-		public bool IsActive { get; set; }
+		public bool IsEmpty { get; set; }
 		public List<Genre> Genres { get; set; }
 		public AuthorEditViewModel Author { get; set; }
 	}
@@ -64,12 +64,12 @@ namespace BookWeb.Models
 		public List<AuthorEditViewModel> Authors { get; set; }
 
 		[Display(Name = "Aktif mi?")]
-		public bool IsActive { get; set; }
+		public bool IsEmpty { get; set; }
 
 		public AdminCreateBookViewModel()
 		{
-			// Set IsActive to default value
-			IsActive = true;
+			// Set IsEmpty to default value
+			IsEmpty = true;
 		}
 
 	}
@@ -110,7 +110,7 @@ namespace BookWeb.Models
 		public List<AuthorEditViewModel> Authors { get; set; }
 
 		[Display(Name = "Aktif mi?")]
-		public bool IsActive { get; set; }
+		public bool IsEmpty { get; set; }
 
 	}
 

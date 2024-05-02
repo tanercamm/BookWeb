@@ -9,7 +9,6 @@
 			<div asp-validation-summary="All"></div> @*Tüm validation hatalarını gösterir*@
 
 			<input type="hidden" asp-for="Authors" value="@Model.Authors" />
-
 			<input type="hidden" name="BookId" value="@Model.BookId" />
 
 			<div class="mb-3">
@@ -46,10 +45,11 @@
 			</div>
 			<br />
 			<div class="mb-3 form-check">
-				<input type="checkbox" asp-for="IsActive" class="form-check-input" />
-				<label class="form-check-label" for="IsActive">Aktif mi?</label>
+				<input type="checkbox" asp-for="IsEmpty" class="form-check-input" />
+				<label class="form-check-label" for="IsEmpty">Aktif mi?</label>
 			</div>
 			<br />
+
 			<div class="mb-3">
 				<input type="hidden" name="ImageUrl" value="@Model.ImageUrl" />
 				<input type="file" name="file" class="form-control" />

@@ -15,7 +15,7 @@
         public string ImageUrl { get; set; }
 
 		// kitabın sahip edilebilirliğine bakılabilmesi gerekiyor
-		public bool IsActive { get; set; }
+		public bool IsEmpty { get; set; }
 
 		public List<Genre> Genres { get; set; }
 
