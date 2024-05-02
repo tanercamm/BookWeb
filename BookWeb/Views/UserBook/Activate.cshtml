@@ -16,10 +16,6 @@
 				<h4 class="card-title">→ @Model.BookTitle</h4>
 				<h6 class="card-title"> @Model.BookPublisher</h6>
 				<p class="card-text"> @Html.Raw(Model.BookDescription)</p>
-				@* <button type="button" class="btn btn-outline-success">Aktive Et</button> *@
-				@* <form method="post" action="@Url.Action("Activate", "UserBook", new { id = Model.BookId })" style="position: absolute; bottom: 10px; right: 10px;">
-				<button type="submit" class="btn btn-outline-success">Aktive Et</button>
-				</form> *@
 				<form method="post" action="@Url.Action("Activate", "UserBook")" style="position: absolute; bottom: 10px; right: 10px;">
 					<input type="hidden" name="BookId" value="@Model.BookId" />
 					<input type="hidden" name="UserId" value="@Model.UserId" />
@@ -42,7 +38,7 @@
 				<h5>Informations</h5>
 			</div>
 			<div class="card-body">
-				@*Buraya User bilgileri gelecek, FullName-UserName-Email bilgileri gelecek *@
+				@*Buraya User bilgileri, FullName-UserName-Email bilgileri gelecek *@
 				<h6>Full Name : @Model.UserFullName</h6>
 				<h6>UserName : @Model.UserUserName</h6>
 				<h6>Email : <a href="mailto:@Model.UserEmail">@Model.UserEmail</a></h6>
