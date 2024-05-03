@@ -53,21 +53,30 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (!app.Environment.IsDevelopment())
-{
-	app.UseExceptionHandler("/Home/Error");
-	app.UseHsts();
-}
-
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
 
+
+
 app.UseAuthentication();
 
 app.UseAuthorization();
+
+
+// 404 hatasý için Error/ErrorPage sayfasýna yönlendirme
+app.Use(async (context, next) =>
+{
+	await next();
+
+	if (context.Response.StatusCode == 404 && !context.Response.HasStarted)
+	{
+		context.Response.Clear();
+		context.Response.Redirect("/Error/ErrorPage");
+	}
+});
+
 
 app.MapControllerRoute(
 	name: "default",
