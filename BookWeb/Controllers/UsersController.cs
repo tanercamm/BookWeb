@@ -1,4 +1,5 @@
-﻿using BookWeb.Entity;
+﻿using BookWeb.Data;
+using BookWeb.Entity;
 using BookWeb.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -10,13 +11,15 @@ namespace BookWeb.Controllers
 	[Authorize(Roles = "admin")]
 	public class UsersController : Controller
 	{
+		private readonly BookContext _context;
 		private readonly UserManager<AppUser> _userManager;
 		private readonly RoleManager<AppRole> _roleManager;
 
-		public UsersController(UserManager<AppUser> userManager, RoleManager<AppRole> roleManager)
+		public UsersController(UserManager<AppUser> userManager, RoleManager<AppRole> roleManager, BookContext context)
 		{
 			_userManager = userManager;
 			_roleManager = roleManager;
+			_context = context;
 		}
 
 		public IActionResult Index()
@@ -60,11 +63,13 @@ namespace BookWeb.Controllers
 			if (ModelState.IsValid)
 			{
 				var user = await _userManager.FindByIdAsync(model.Id);
+
 				if (user != null)
 				{
 					user.Email = model.Email;
 					user.FullName = model.FullName;
 					user.ImageUrl = model.ImageUrl;
+
 					var result = await _userManager.UpdateAsync(user);
 
 					if (result.Succeeded && !string.IsNullOrEmpty(model.Password))

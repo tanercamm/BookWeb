@@ -1,4 +1,5 @@
-﻿using BookWeb.Data;
+﻿using System.IO;
+using BookWeb.Data;
 using BookWeb.Entity;
 using BookWeb.Models;
 using Microsoft.AspNetCore.Identity;
@@ -59,7 +60,7 @@ namespace BookWeb.Controllers
 			return View(model);
 		}
 
-		// LOGİN
+		// LOGIN
 
 		[HttpGet]
 		public IActionResult Login()
@@ -119,47 +120,156 @@ namespace BookWeb.Controllers
 			return RedirectToAction("Login");
 		}
 
-        [HttpGet]
-        public async Task<IActionResult> Profile()
-        {
-            var user = await _userManager.GetUserAsync(User);
+		// PROFILE
 
-            if (user == null)
-            {
-                return RedirectToAction("Login");
-            }
+		[HttpGet]
+		public async Task<IActionResult> Profile()
+		{
+			var user = await _userManager.GetUserAsync(User);
 
-            var model = new UserProfileViewModel
-            {
-                FullName = user.FullName,
-                UserName = user.UserName,
-                Email = user.Email,
-                ImageUrl = user.ImageUrl
-            };
+			if (user == null)
+			{
+				return RedirectToAction("Login");
+			}
 
-            var userBooks = _context.UserBooks
-                .Where(ub => ub.UserId == user.Id && ub.IsActive)
-                .Select(ub => new UserBookViewModel
-                {
-                    BookId = ub.BookId,
-                    BookTitle = ub.Book.Title,
-                    BookPublisher = ub.Book.Publisher,
-                    BookDescription = ub.Book.Description,
-                    BookImageUrl = ub.Book.ImageUrl,
-                    UserId = user.Id,
-                    UserFullName = user.FullName,
-                    UserUserName = user.UserName,
-                    UserEmail = user.Email
-                })
-                .ToList();
+			var model = new UserProfileViewModel
+			{
+				FullName = user.FullName,
+				UserName = user.UserName,
+				Email = user.Email,
+				ImageUrl = user.ImageUrl
+			};
 
-            model.UserBooks = userBooks;
+			var userBooks = _context.UserBooks
+				.Where(ub => ub.UserId == user.Id && ub.IsActive)
+				.Select(ub => new UserBookViewModel
+				{
+					BookId = ub.BookId,
+					BookTitle = ub.Book.Title,
+					BookPublisher = ub.Book.Publisher,
+					BookDescription = ub.Book.Description,
+					BookImageUrl = ub.Book.ImageUrl,
+					UserId = user.Id,
+					UserFullName = user.FullName,
+					UserUserName = user.UserName,
+					UserEmail = user.Email
+				})
+				.ToList();
 
-            return View(model);
-        }
+			model.UserBooks = userBooks;
 
+			return View(model);
+		}
 
+		// Profile Update
 
+		[HttpGet]
+		public async Task<IActionResult> ProfileUpdate()
+		{
+			var user = await _userManager.GetUserAsync(User);
 
-    }
+			if (user == null)
+			{
+				return RedirectToAction("Login");
+			}
+
+			var model = new ProfileUpdateViewModel
+			{
+				Id = user.Id,
+				FullName = user.FullName,
+				UserName = user.UserName,
+				Email = user.Email,
+				ImageUrl = user.ImageUrl
+			};
+
+			return View(model);
+		}
+
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public async Task<IActionResult> ProfileUpdate(ProfileUpdateViewModel model, IFormFile file)
+		{
+			ModelState.Remove("FullName");
+			ModelState.Remove("UserName");
+			ModelState.Remove("Email");
+
+			if (ModelState.IsValid)
+			{
+				var entity = await _userManager.GetUserAsync(User);
+
+				if (entity == null)
+				{
+					return NotFound();
+				}
+
+				// fotoğraf güncelleme
+				if (file != null)
+				{
+					var extension = Path.GetExtension(file.FileName);
+					var fileName = Path.GetFileName(file.FileName);
+					var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\users", fileName);
+					entity.ImageUrl = fileName;
+					using (var stream = new FileStream(path, FileMode.Create))
+					{
+						await file.CopyToAsync(stream);
+					}
+				}
+				else // yeni dosya yüklenmemişse, mevcut resmi tanımlarız
+				{
+					entity.ImageUrl = model.ImageUrl;
+				}
+
+				// Şifre değiştirme kontrolleri
+				if (model.isChangePassword)
+				{
+					if (string.IsNullOrEmpty(model.CurrentPassword))
+					{
+						ModelState.AddModelError(string.Empty, "Please enter the current password.");
+						return View(model);
+					}
+
+					var isCurrentPasswordValid = await _userManager.CheckPasswordAsync(entity, model.CurrentPassword);
+					if (!isCurrentPasswordValid)
+					{
+						ModelState.AddModelError(string.Empty, "The current password is incorrect.");
+						return View(model);
+					}
+
+					if (string.IsNullOrEmpty(model.NewPassword))
+					{
+						ModelState.AddModelError(string.Empty, "Please enter the new password.");
+						return View(model);
+					}
+
+					if (model.NewPassword == model.CurrentPassword)
+					{
+						ModelState.AddModelError(string.Empty, "The new password cannot be the same as the old password.");
+						return View(model);
+					}
+
+					if (model.NewPassword != model.ConfirmPassword)
+					{
+						ModelState.AddModelError(string.Empty, "The new password and confirmation password do not match.");
+						return View(model);
+					}
+
+					// Şifre değiştirme işlemi
+					var changePasswordResult = await _userManager.ChangePasswordAsync(entity, model.CurrentPassword, model.NewPassword);
+					if (!changePasswordResult.Succeeded)
+					{
+						foreach (var error in changePasswordResult.Errors)
+						{
+							ModelState.AddModelError(string.Empty, error.Description);
+						}
+						return View(model);
+					}
+				}
+				await _userManager.UpdateAsync(entity);
+				return RedirectToAction("Profile");
+			}
+			return View(model);
+		}
+
+	}
 }
+

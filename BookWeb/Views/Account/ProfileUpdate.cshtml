@@ -1,0 +1,113 @@
+﻿@model ProfileUpdateViewModel
+
+<form method="post" enctype="multipart/form-data">
+
+	<div class="row">
+		<div asp-validation-summary="All" class="text-danger"></div>
+		<input name="Id" type="hidden" value="@Model.Id">
+		<div class="col-md-4">
+
+			<div class="card">
+				<div class="card-header">
+					User Informations
+				</div>
+				<div class="card-body">
+					<input type="hidden" name="ImageUrl" value="@Model.ImageUrl" />
+					<img src="/users/@Model.ImageUrl" width="200" />
+
+					<div class="form-group">
+						<label asp-for="FullName" class="col-form-label col-form-label-sm"></label>
+						<input asp-for="FullName" class="form-control form-control-sm" disabled>
+						<input type="hidden" asp-for="FullName" />
+						<span asp-validation-for="FullName" class="text-danger"></span>
+					</div>
+
+					<div class="form-group">
+						<label asp-for="UserName" class="col-form-label col-form-label-sm"></label>
+						<input asp-for="UserName" class="form-control form-control-sm" disabled>
+						<input type="hidden" asp-for="UserName" />
+						<span asp-validation-for="UserName" class="text-danger"></span>
+					</div>
+
+					<div class="form-group">
+						<label asp-for="Email" class="col-form-label col-form-label-sm"></label>
+						<input asp-for="Email" class="form-control form-control-sm" disabled>
+						<input type="hidden" asp-for="Email" />
+						<span asp-validation-for="Email" class="text-danger"></span>
+					</div>
+
+				</div>
+			</div>
+
+			<br />
+		</div>
+		<div class="col-md-4">
+			<div class="card">
+				<div class="card-header">
+					<div class="form-check">
+						<input asp-for="isChangePassword" class="form-check-input" />
+						<label class="form-check-label" asp-for="isChangePassword">Change Password</label>
+					</div>
+				</div>
+				<div class="card-body">
+
+					<div class="mb-3">
+						<label asp-for="CurrentPassword"></label>
+						<input asp-for="CurrentPassword" class="form-control">
+						<span asp-validation-for="CurrentPassword" class="text-danger"></span>
+					</div>
+
+					<div class="mb-3">
+						<label asp-for="NewPassword"></label>
+						<input asp-for="NewPassword" class="form-control">
+						<span asp-validation-for="NewPassword" class="text-danger"></span>
+					</div>
+
+					<div class="mb-3">
+						<label asp-for="ConfirmPassword"></label>
+						<input asp-for="ConfirmPassword" class="form-control">
+						<span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+					</div>
+				</div>
+			</div>
+
+		</div>
+		<div class="col-md-4">
+			<div class="card">
+				<div class="card-header">
+					<h5 class="card-title">Change Profile Photo</h5>
+				</div>
+
+				<div class="card-body">
+					<div class="form-group">
+						<div class="badge text-bg-warning text-wrap" style="width: 24rem;">
+							⮮ Choose Photo ⮯
+						</div>
+						<hr />
+						<div class="custom-file">
+							<input type="file" class="custom-file-input" id="file" name="file" accept="image/*">
+						</div>
+						<hr />
+						<div class="badge text-bg-info text-wrap" style="width: 24rem;">
+							⮮ Rules ⮯
+						</div>
+						<hr />
+						<ul class="list-unstyled">
+							<li><i class="bi bi-info-circle-fill text-info"></i> Make sure that the photo you choose is vivid and of high quality.</li>
+							<li><i class="bi bi-info-circle-fill text-info"></i> Make sure that the photo you choose reflects you.</li>
+							<li><i class="bi bi-info-circle-fill text-info"></i> Please remember that the photo you choose will not cause any incrimination.</li>
+							<li><i class="bi bi-info-circle-fill text-info"></i> Thank You - BookWeb</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<br />
+			<div class="d-flex justify-content-end">
+				<a href="@Url.Action("Profile", "Account")" class="btn btn-danger btn-sm me-2">
+					<i class="bi bi-box-arrow-left"></i> Back
+				</a>
+				<button type="submit" class="btn btn-success btn-sm"><i class="bi bi-floppy2-fill"></i> Save</button>
+			</div>
+		</div>
+	</div>
+</form>

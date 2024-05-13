@@ -54,25 +54,24 @@
 			<ul class="navbar-nav ms-auto">
 				@if (User.Identity!.IsAuthenticated)
 				{
-
 					<li class="nav-item">
-						<a href="/Account/Profile" class="badge text-bg-danger text-wrap" style="width: 6rem;">
-							@User.Identity.Name
+						<a href="/Account/Profile" class="badge text-bg-success text-wrap" style="width: 6rem; font-size: 0.9rem; vertical-align: middle; line-height: 20px;">
+							<i class="bi bi-person-fill"></i>@User.Identity.Name
 						</a>
 					</li>
 
-					<li class="nav-item">
-						<a href="/account/logout" class="nav-link">Logout</a>
+					<li class="nav-item ms-2">
+						<a href="/account/logout" class="nav-link"><i class="bi bi-person-fill-slash"></i> Logout</a>
 					</li>
 
 				}
 				else
 				{
 					<li class="nav-item">
-						<a href="/account/login" class="nav-link">Login</a>
+						<a href="/account/login" class="nav-link"><i class="bi bi-person-check-fill"></i> Login</a>
 					</li>
-					<li class="nav-item">
-						<a href="/account/register" class="nav-link">Register</a>
+					<li class="nav-item ms-2">
+						<a href="/account/register" class="nav-link"><i class="bi bi-person-plus"></i> Register</a>
 					</li>
 				}
 			</ul>
@@ -81,8 +80,8 @@
 			@if (User.Identity!.IsAuthenticated)
 			{
 				<form action="/books/list" method="get" class="d-flex">
-					<input type="text" name="q" placeholder="Kitap Ara" class="form-control me-2" />
-					<button type="submit" class="btn btn-outline-light mr-0">Ara</button>
+					<input type="text" name="q" placeholder="Search for Books" class="form-control me-2" />
+					<button type="submit" class="btn btn-outline-light mr-0"><i class="bi bi-search"></i></button>
 				</form>
 			}
 

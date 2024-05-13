@@ -40,3 +40,24 @@ body {
     width: 1000px; /* Geniþlik */
     height: 600px; /* Yükseklik */
 }
+
+.book-container {
+    border: 1px solid #ccc;
+    padding: 20px;
+    margin-top: 20px;
+}
+
+    .book-container ul {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .book-container li {
+        margin-bottom: 20px;
+    }
+
+    .book-container .btn {
+        margin-left: 5px;
+        margin-right: 5px;
+    }
