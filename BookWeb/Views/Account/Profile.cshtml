@@ -29,22 +29,22 @@
 		<div class="col-md-6">
 			<h3>User Information</h3>
 			<hr />
-			<div class="d-flex align-items-start">
-				<div>
-					<img src="/users/@Model.ImageUrl" alt="Profil Resmi" class="img-fluid img-profile">
+			<div class="book-container">
+				<div class="d-flex align-items-start">
+					<div>
+						<img src="/users/@Model.ImageUrl" alt="Profil Resmi" class="img-fluid img-profile">
+					</div>
+					<div style="margin-left: 20px;">
+						<a href="/Account/ProfileUpdate" class="btn btn-warning btn-sm"><i class="bi bi-pencil-square"></i> Update Profile</a>
+					</div>
 				</div>
-				@* <div class="ml-2">
-					<button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#changePhotoModal">
-						<i class="bi bi-pencil-square"></i> Change Photo
-					</button>
-				</div> *@
-				<div class="ml-2">
-					<a href="/Account/ProfileUpdate" class="btn btn-warning btn-sm"><i class="bi bi-pencil-square"></i> Update Profile</a>
+				<p></p>
+				<div class="book-container">
+					<p><strong>FullName :</strong> @Model.FullName</p>
+					<p><strong>UserName :</strong> @Model.UserName</p>
+					<p><strong>Email :</strong> <a href="mailto:@Model.Email">@Model.Email</a></p>
 				</div>
 			</div>
-			<p><strong>FullName :</strong> @Model.FullName</p>
-			<p><strong>UserName :</strong> @Model.UserName</p>
-			<p><strong>Email :</strong> <a href="mailto:@Model.Email">@Model.Email</a></p>
 		</div>
 		<div class="col-md-6">
 			<h3>Book Owned</h3>
@@ -109,43 +109,6 @@
 	</div>
 </div>
 
-@*MODAL PAGE FOR CHANGE PHOTO*@
-<div class="modal fade" id="changePhotoModal" tabindex="-1" role="dialog" aria-labelledby="changePhotoModalLabel" aria-hidden="true">
-	<div class="modal-dialog" role="document">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h5 class="modal-title" id="changePhotoModalLabel">Change Profile Photo</h5>
-				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-			</div>
-			<form id="photoForm" method="post" enctype="multipart/form-data" action="@Url.Action("UpdateProfilePhoto", "Account")">
-				<div class="modal-body">
-					<div class="form-group">
-						<div class="badge text-bg-warning text-wrap" style="width: 29rem;">
-							⮮ Choose Photo ⮯
-						</div>
-						<hr />
-						<div class="custom-file">
-							<input type="file" class="custom-file-input" id="file" name="file" accept="image/*">
-						</div>
-						<hr />
-						<ul class="list-unstyled">
-							<li><i class="bi bi-info-circle-fill text-info"></i> Make sure that the photo you choose is vivid and of high quality.</li>
-							<li><i class="bi bi-info-circle-fill text-info"></i> Make sure that the photo you choose reflects you.</li>
-							<li><i class="bi bi-info-circle-fill text-info"></i> Please remember that the photo you choose will not cause any incrimination.</li>
-							<li><i class="bi bi-info-circle-fill text-info"></i> Thank You - BookWeb</li>
-						</ul>
-					</div>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal"><i class="bi bi-x-circle"></i> Close</button>
-					<button type="submit" class="btn btn-success btn-sm" id="savePhotoButton"><i class="bi bi-floppy2-fill"></i> Save</button>
-				</div>
-			</form>
-		</div>
-	</div>
-</div>
-
-
 <script>
 	$(document).ready(function () {
 		// Başarılı mesajın kapatılması için
@@ -156,45 +119,6 @@
 		// Hata mesajının kapatılması için
 		$("#errorAlert .btn-close").click(function () {
 			$("#errorAlert").alert('close');
-		});
-
-		// Change Photo modalında Save buttonuna tıklanınca
-		$('#changePhotoModal').on('click', '#savePhotoButton', function () {
-			var formData = new FormData();
-			formData.append('file', $('#file')[0].files[0]);
-
-			// Dosya seçilmediyse
-			if (formData.get('file') === undefined) {
-				// Hata mesajını göster
-				var alertHTML = '<div class="alert alert-danger" role="alert">Please select a photo to upload.</div>';
-				$('#errorMessageContainer').html(alertHTML);
-				return; // Fonksiyondan çık
-			}
-
-			$.ajax({
-				url: '@Url.Action("UpdateProfilePhoto", "Account")',
-				type: 'POST',
-				data: formData,
-				processData: false,
-				contentType: false,
-				success: function (data) {
-					// Başarılı mesaj gösterme
-					var successHTML = '<div class="alert alert-success" role="alert">Profile photo updated successfully.</div>';
-					$('#successMessageContainer').html(successHTML);
-					// Profil sayfasına yönlendirme işlemi
-					window.location.href = '@Url.Action("Profile", "Account")';
-				},
-				error: function (xhr, status, error) {
-					// Hata mesajını gösterme
-					var errorMessage = xhr.responseText;
-					var alertHTML = '<div class="alert alert-danger" role="alert">' +
-						errorMessage +
-						'</div>';
-					$('#errorMessageContainer').html(alertHTML);
-				}
-			});
-
-			$('#changePhotoModal').modal('hide');
 		});
 	});
 </script>

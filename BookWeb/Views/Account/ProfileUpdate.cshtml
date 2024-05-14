@@ -1,12 +1,10 @@
 ﻿@model ProfileUpdateViewModel
 
 <form method="post" enctype="multipart/form-data">
-
 	<div class="row">
 		<div asp-validation-summary="All" class="text-danger"></div>
 		<input name="Id" type="hidden" value="@Model.Id">
 		<div class="col-md-4">
-
 			<div class="card">
 				<div class="card-header">
 					User Informations
@@ -38,55 +36,59 @@
 
 				</div>
 			</div>
-
 			<br />
 		</div>
+
 		<div class="col-md-4">
 			<div class="card">
 				<div class="card-header">
-					<div class="form-check">
-						<input asp-for="isChangePassword" class="form-check-input" />
-						<label class="form-check-label" asp-for="isChangePassword">Change Password</label>
-					</div>
+					Password Operations
 				</div>
 				<div class="card-body">
-
 					<div class="mb-3">
 						<label asp-for="CurrentPassword"></label>
 						<input asp-for="CurrentPassword" class="form-control">
 						<span asp-validation-for="CurrentPassword" class="text-danger"></span>
 					</div>
-
-					<div class="mb-3">
-						<label asp-for="NewPassword"></label>
-						<input asp-for="NewPassword" class="form-control">
-						<span asp-validation-for="NewPassword" class="text-danger"></span>
-					</div>
-
-					<div class="mb-3">
-						<label asp-for="ConfirmPassword"></label>
-						<input asp-for="ConfirmPassword" class="form-control">
-						<span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+					<div class="card">
+						<div class="card-header">
+							<div class="form-check form-switch">
+								<input asp-for="isChangePassword" class="form-check-input" id="changePasswordSwitch">
+								<label class="form-check-label" for="changePasswordSwitch">Change Password</label>
+							</div>
+						</div>
+						<div class="card-body">
+							<div class="mb-3">
+								<label asp-for="NewPassword"></label>
+								<input asp-for="NewPassword" class="form-control">
+								<span asp-validation-for="NewPassword" class="text-danger"></span>
+							</div>
+							<div class="mb-3">
+								<label asp-for="ConfirmPassword"></label>
+								<input asp-for="ConfirmPassword" class="form-control">
+								<span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
-
 		</div>
+
 		<div class="col-md-4">
 			<div class="card">
 				<div class="card-header">
 					<h5 class="card-title">Change Profile Photo</h5>
 				</div>
-
 				<div class="card-body">
 					<div class="form-group">
 						<div class="badge text-bg-warning text-wrap" style="width: 24rem;">
 							⮮ Choose Photo ⮯
 						</div>
 						<hr />
-						<div class="custom-file">
-							<input type="file" class="custom-file-input" id="file" name="file" accept="image/*">
+						<div class="input-group">
+							<input type="file" class="form-control" id="file" name="file" accept="image/*">
 						</div>
+
 						<hr />
 						<div class="badge text-bg-info text-wrap" style="width: 24rem;">
 							⮮ Rules ⮯

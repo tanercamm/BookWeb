@@ -167,12 +167,10 @@ namespace BookWeb.Controllers
 		public async Task<IActionResult> ProfileUpdate()
 		{
 			var user = await _userManager.GetUserAsync(User);
-
 			if (user == null)
 			{
 				return RedirectToAction("Login");
 			}
-
 			var model = new ProfileUpdateViewModel
 			{
 				Id = user.Id,
@@ -181,7 +179,6 @@ namespace BookWeb.Controllers
 				Email = user.Email,
 				ImageUrl = user.ImageUrl
 			};
-
 			return View(model);
 		}
 
@@ -193,6 +190,12 @@ namespace BookWeb.Controllers
 			ModelState.Remove("UserName");
 			ModelState.Remove("Email");
 
+			if (!model.isChangePassword)
+			{
+				ModelState.Remove("NewPassword");
+				ModelState.Remove("ConfirmPassword");
+			}
+
 			if (ModelState.IsValid)
 			{
 				var entity = await _userManager.GetUserAsync(User);
@@ -202,29 +205,13 @@ namespace BookWeb.Controllers
 					return NotFound();
 				}
 
-				// fotoğraf güncelleme
+				// Fotoğraf güncelleme
 				if (file != null)
 				{
-					var extension = Path.GetExtension(file.FileName);
-					var fileName = Path.GetFileName(file.FileName);
-					var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\users", fileName);
-					entity.ImageUrl = fileName;
-					using (var stream = new FileStream(path, FileMode.Create))
-					{
-						await file.CopyToAsync(stream);
-					}
-				}
-				else // yeni dosya yüklenmemişse, mevcut resmi tanımlarız
-				{
-					entity.ImageUrl = model.ImageUrl;
-				}
-
-				// Şifre değiştirme kontrolleri
-				if (model.isChangePassword)
-				{
+					// Mevcut parolayı kontrol et
 					if (string.IsNullOrEmpty(model.CurrentPassword))
 					{
-						ModelState.AddModelError(string.Empty, "Please enter the current password.");
+						ModelState.AddModelError(string.Empty, "Please enter your current password for security reasons.");
 						return View(model);
 					}
 
@@ -235,21 +222,27 @@ namespace BookWeb.Controllers
 						return View(model);
 					}
 
-					if (string.IsNullOrEmpty(model.NewPassword))
+					var extension = Path.GetExtension(file.FileName);
+					var fileName = Path.GetFileName(file.FileName);
+					var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\users", fileName);
+					entity.ImageUrl = fileName;
+					using (var stream = new FileStream(path, FileMode.Create))
 					{
-						ModelState.AddModelError(string.Empty, "Please enter the new password.");
-						return View(model);
+						await file.CopyToAsync(stream);
 					}
+				}
+				else
+				{
+					entity.ImageUrl = model.ImageUrl;
+				}
 
+				// Şifre değiştirme kontrolleri
+				if (model.isChangePassword && !string.IsNullOrEmpty(model.NewPassword) && !string.IsNullOrEmpty(model.ConfirmPassword) && model.NewPassword == model.ConfirmPassword)
+				{
+					// Yeni şifre ile eski şifre aynı olamaz
 					if (model.NewPassword == model.CurrentPassword)
 					{
 						ModelState.AddModelError(string.Empty, "The new password cannot be the same as the old password.");
-						return View(model);
-					}
-
-					if (model.NewPassword != model.ConfirmPassword)
-					{
-						ModelState.AddModelError(string.Empty, "The new password and confirmation password do not match.");
 						return View(model);
 					}
 
@@ -269,7 +262,7 @@ namespace BookWeb.Controllers
 			}
 			return View(model);
 		}
-
+	
 	}
 }
 
