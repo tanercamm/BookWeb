@@ -1,0 +1,115 @@
+﻿@model CommentViewModel
+
+<h3>Add Your Comment</h3>
+<hr />
+
+<div class="row">
+	<div asp-validation-summary="All" class="text-danger"></div>
+
+	<div class="col-md-4">
+		<div class="card">
+			<div class="card-header">
+				Book Informations
+			</div>
+			<div class="card-body">
+				<input type="hidden" name="ImageUrl" value="@Model.ImageUrl" />
+				<div style="text-align: center; padding-top: 10px; padding-bottom: 10px;">
+					<img src="/book/@Model.ImageUrl" alt="Book Image" width="170">
+				</div>
+				<div class="form-group">
+					<label asp-for="Title" class="col-form-label col-form-label-sm"></label>
+					<input asp-for="Title" class="form-control form-control-sm" disabled>
+					<input type="hidden" asp-for="Title" />
+					<span asp-validation-for="Title" class="text-danger"></span>
+				</div>
+				<div class="form-group">
+					<label asp-for="AuthorFullName" class="col-form-label col-form-label-sm">Author</label>
+					<input asp-for="AuthorFullName" class="form-control form-control-sm" disabled>
+					<input type="hidden" asp-for="AuthorFullName" />
+					<span asp-validation-for="AuthorFullName" class="text-danger"></span>
+				</div>
+				<div class="form-group">
+					<label asp-for="Publisher" class="col-form-label col-form-label-sm"></label>
+					<input asp-for="Publisher" class="form-control form-control-sm" disabled>
+					<input type="hidden" asp-for="Publisher" />
+					<span asp-validation-for="Publisher" class="text-danger"></span>
+				</div>
+			</div>
+		</div>
+		<br />
+	</div>
+
+	<div class="col-md-5">
+		<form asp-action="CommentCreate" method="post">
+			<div class="card">
+				<div class="card-header">
+					Add Comment
+				</div>
+				<div class="card-body">
+					<div class="form-floating">
+						<textarea asp-for="Text" class="form-control" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 325px"></textarea>
+						<label asp-for="Text">Your comment about the book..</label>
+						<span asp-validation-for="Text" class="text-danger"></span>
+					</div>
+					<input type="hidden" asp-for="BookId" />
+					<input type="hidden" asp-for="UserId" />
+					<input type="hidden" asp-for="Title" />
+					<input type="hidden" asp-for="AuthorFullName" />
+					<input type="hidden" asp-for="Publisher" />
+					<input type="hidden" asp-for="ImageUrl" />
+					<input type="hidden" asp-for="UserName" />
+					<input type="hidden" asp-for="FullName" />
+					<input type="hidden" asp-for="Email" />
+					<input type="hidden" asp-for="UserImageUrl" />
+				</div>
+
+				<div class="card-footer-comment-container">
+					<div class="card-footer-comment">
+						<div class="form-group ml-auto mr-2">
+							<a href="/Account/Profile" class="btn btn-outline-danger">
+								<i class="bi bi-box-arrow-left"></i> Back
+							</a>
+						</div>
+						<div class="form-group">
+							<button type="submit" class="btn btn-outline-info">
+								<i class="bi bi-send-fill"></i> Send
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+
+	<div class="col-md-3">
+		<div class="card">
+			<div class="card-header">
+				User Informations
+			</div>
+			<div class="card-body">
+				<input type="hidden" name="ImageUrl" value="@Model.ImageUrl" />
+				<div style="text-align: center; padding-top: 10px; padding-bottom: 10px;">
+					<img src="/users/@Model.UserImageUrl" width="250" />
+				</div>
+				<div class="form-group">
+					<label asp-for="FullName" class="col-form-label col-form-label-sm"></label>
+					<input asp-for="FullName" class="form-control form-control-sm" disabled>
+					<input type="hidden" asp-for="FullName" />
+					<span asp-validation-for="FullName" class="text-danger"></span>
+				</div>
+				<div class="form-group">
+					<label asp-for="UserName" class="col-form-label col-form-label-sm"></label>
+					<input asp-for="UserName" class="form-control form-control-sm" disabled>
+					<input type="hidden" asp-for="UserName" />
+					<span asp-validation-for="UserName" class="text-danger"></span>
+				</div>
+				<div class="form-group">
+					<label asp-for="Email" class="col-form-label col-form-label-sm"></label>
+					<input asp-for="Email" class="form-control form-control-sm" disabled>
+					<input type="hidden" asp-for="Email" />
+					<span asp-validation-for="Email" class="text-danger"></span>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

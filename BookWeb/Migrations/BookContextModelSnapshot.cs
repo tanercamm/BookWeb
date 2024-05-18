@@ -230,7 +230,7 @@ namespace BookWeb.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Comment");
+                    b.ToTable("Comments");
                 });
 
             modelBuilder.Entity("BookWeb.Entity.Genre", b =>

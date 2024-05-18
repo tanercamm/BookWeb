@@ -18,6 +18,8 @@ namespace BookWeb.Data
 
 		public DbSet<UserBook> UserBooks { get; set; }
 
+		public DbSet<Comment> Comments { get; set; }
+
 		// entity'lerin özellik tanımlamasını burada işleyebiliriz 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{

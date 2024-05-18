@@ -35,7 +35,7 @@
 						<img src="/users/@Model.ImageUrl" alt="Profil Resmi" class="img-fluid img-profile">
 					</div>
 					<div style="margin-left: 20px;">
-						<a href="/Account/ProfileUpdate" class="btn btn-warning btn-sm"><i class="bi bi-pencil-square"></i> Update Profile</a>
+						<a href="/Account/ProfileUpdate" class="btn btn-outline-warning btn-md"><i class="bi bi-pencil-square"></i> Update Profile</a>
 					</div>
 				</div>
 				<p></p>
@@ -46,6 +46,7 @@
 				</div>
 			</div>
 		</div>
+		<br />
 		<div class="col-md-6">
 			<h3>Book Owned</h3>
 			<hr />
@@ -60,11 +61,14 @@
 								<h4>@userBook.BookTitle</h4>
 								<p><strong>Publisher:</strong> @userBook.BookPublisher</p>
 								<div class="d-flex justify-content-end">
-									<button type="button" class="btn btn-info me-2" data-bs-toggle="modal" data-bs-target="#commentModal">Add Comment</button>
-
-									<form method="post" asp-controller="UserBook" asp-action="Deliver" asp-route-bookId="@userBook.BookId">
-										<button type="submit" class="btn btn-danger">Deliver</button>
-									</form>
+									<div style="display: flex;">
+										<div style="margin-right: 10px;">
+											<a href="/Comments/CommentCreate" class="btn btn-outline-info btn-md" style="width: 120px;"><i class="bi bi-chat-dots"></i> Comment</a>
+										</div>
+										<form method="post" asp-controller="UserBook" asp-action="Deliver" asp-route-bookId="@userBook.BookId" style="margin: 0;">
+											<button type="submit" class="btn btn-outline-danger btn-md" style="width: 120px;"><i class="bi bi-bookmark-x-fill"></i> Deliver</button>
+										</form>
+									</div>
 								</div>
 							</li>
 						}
@@ -76,34 +80,6 @@
 						<strong>You haven't added any books yet!</strong> You can browse the book area.
 					</div>
 				}
-			</div>
-		</div>
-	</div>
-</div>
-
-@*MODAL PAGE FOR COMMENT*@
-<div class="modal fade" id="commentModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="commentModalLabel" aria-hidden="true">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-header">
-				<div class="badge text-bg-info text-wrap" style="width: 12rem; font-size: 1.2em;">
-					Book Review
-				</div>
-				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-			</div>
-			<div class="modal-body">
-				<div class="badge text-bg-warning text-wrap" style="width: 29rem;">
-					⮮  Send your reviews about the book...  ⮯
-				</div>
-				<div style="margin-top: 5px;"></div>
-				<div class="form-floating">
-					<textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea" style="height: 100px"></textarea>
-					<label for="floatingTextarea">Add Comment</label>
-				</div>
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-				<button type="button" class="btn btn-warning">Send</button>
 			</div>
 		</div>
 	</div>

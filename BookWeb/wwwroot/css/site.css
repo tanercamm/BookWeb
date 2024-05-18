@@ -61,3 +61,19 @@ body {
         margin-left: 5px;
         margin-right: 5px;
     }
+
+.card-footer-comment-container {
+    padding-bottom: 10px;
+    padding-right: 10px;
+}
+
+.card-footer-comment {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 0;
+}
+
+    .card-footer-comment .form-group:not(:last-child) {
+        margin-right: 10px;
+    }
+
