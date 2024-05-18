@@ -192,8 +192,17 @@ namespace BookWeb.Controllers
 				return RedirectToAction("Profile", "Account");
 			}
 
-			// Kitabın durumunu false (bağlantılı değil) yapılsın
-			activeUserBook.IsActive = false;
+            // Kullanıcının bu kitap hakkında yorum yapıp yapmadığını kontrol et
+            var userComment = _context.Comments.FirstOrDefault(c => c.UserId == user.Id && c.BookId == bookId);
+            if (userComment == null)
+            {
+                // Kullanıcı bu kitap hakkında yorum yapmamış, yorum yapma sayfasına yönlendir
+                TempData["ErrorMessage"] = "You need to write a comment before delivering the book!";
+                return RedirectToAction("Profile", "Account");
+            }
+
+            // Kitabın durumunu false (bağlantılı değil) yapılsın
+            activeUserBook.IsActive = false;
 
 			// Kitabın IsEmpty durumunu true (kullanılabilir) yap
 			var bookToUpdate = await _context.Books.FindAsync(bookId);

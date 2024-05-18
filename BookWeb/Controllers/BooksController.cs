@@ -75,7 +75,11 @@ namespace BookWeb.Controllers
 
 		public IActionResult Details(int id)
 		{
-			var book = _context.Books.Find(id);
+			var book = _context.Books
+						.Include(b => b.Author)
+						.Include(b => b.Comments)
+							.ThenInclude(c => c.User)
+						.FirstOrDefault(b => b.BookId == id);
 
 			if (book == null)
 			{
@@ -90,11 +94,8 @@ namespace BookWeb.Controllers
 			{
 				var authorInfo = okResult.Value as dynamic;
 				ViewData["AuthorFullName"] = authorInfo.AuthorFullName;
-
 				ViewData["AuthorId"] = book.AuthorId;
-
 			}
-
 			return View(book);
 		}
 
