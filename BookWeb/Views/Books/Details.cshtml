@@ -1,24 +1,24 @@
 ﻿@model Book
 
 <div class="card">
-	<div class="row">
-		<div class="col-md-3">
-			<img src="/book/@Model.ImageUrl" class="card-img" />
-		</div>
-		<div class="col-md-9">
-			<div class="card-body">
-				<a href="@Url.Action("AuthorDetails", "Author", new { id = ViewData["AuthorId"] } )" class="custom-link">@ViewData["AuthorFullName"]</a>
-				<h4 class="card-title">@Model.Title</h4>
-				<h6 class="card-title">@Model.Publisher</h6>
-				<p>Page Count: <span>(@Model.PageCount)</span></p>
-				<p class="card-text">@Html.Raw(Model.Description)</p>
-				<div class="review-button-wrapper">
-					<a href="@Url.Action("Index", "Home")" class="btn btn-outline-success home-button"><i class="bi bi-house-door-fill"></i> Home</a>
-					<a href="@Url.Action("Activate", "UserBook", new { id = Model.BookId })" class="btn btn-outline-primary review-button"><i class="bi bi-info-circle-fill"></i> Review</a>
-				</div>
-			</div>
-		</div>
-	</div>
+    <div class="row">
+        <div class="col-md-3">
+            <img src="/book/@Model.ImageUrl" class="card-img" />
+        </div>
+        <div class="col-md-9">
+            <div class="card-body">
+                <a href="@Url.Action("AuthorDetails", "Author", new { id = ViewData["AuthorId"] })" class="custom-link">@ViewData["AuthorFullName"]</a>
+                <h4 class="card-title">@Model.Title</h4>
+                <h6 class="card-title">@Model.Publisher</h6>
+                <p>Page Count: <span>(@Model.PageCount)</span></p>
+                <p class="card-text">@Html.Raw(Model.Description)</p>
+                <div class="review-button-wrapper">
+                    <a href="@Url.Action("Index", "Home")" class="btn btn-outline-success home-button"><i class="bi bi-house-door-fill"></i> Home</a>
+                    <a href="@Url.Action("Activate", "UserBook", new { id = Model.BookId })" class="btn btn-outline-primary review-button"><i class="bi bi-info-circle-fill"></i> Review</a>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 <hr />
 
@@ -27,121 +27,115 @@
 
 @if (Model.Comments != null && Model.Comments.Any())
 {
-	<div class="comments-section">
-		<div class="comments-wrapper">
-			@foreach (var comment in Model.Comments)
-			{
-				<div class="comment">
-					<div class="comment-header">
-						<div class="user-info">
-							<img src="/users/@comment.User.ImageUrl" alt="@comment.User.UserName" class="user-image" />
-							<span class="user-name">@comment.User.UserName</span>
-						</div>
-						<div class="comment-date">
-							<span>@comment.DateTime.ToString("dd.MM.yyyy HH:mm")</span>
-						</div>
-					</div>
-					<div class="comment-body">
-						<p>@comment.Text</p>
-					</div>
-				</div>
-			}
-		</div>
-	</div>
+    <div class="comments-section">
+        <div class="comments-wrapper">
+            @foreach (var comment in Model.Comments)
+            {
+                <div class="comment">
+                    <div class="comment-header">
+                        <div class="user-info">
+                            <img src="/users/@comment.User.ImageUrl" alt="@comment.User.UserName" class="user-image" />
+                            <span class="user-name">@comment.User.UserName</span>
+                        </div>
+                        <div class="comment-date">
+                            <span>@comment.DateTime.ToString("dd.MM.yyyy HH:mm")</span>
+                        </div>
+                    </div>
+                    <div class="comment-body">
+                        <p>@comment.Text</p>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
 }
 else
 {
-	<div class="alert alert-warning alert-dismissible fade show" role="alert">
-		<strong>No comments yet!</strong> Be the first to comment on this book.
-	</div>
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <strong>No comments yet!</strong> Be the first to comment on this book.
+    </div>
 }
 
 <style>
-	.book-details {
-		display: flex;
-		margin-bottom: 20px;
-	}
+    .book-details {
+        display: flex;
+        margin-bottom: 20px;
+    }
 
-	.book-image {
-		width: 150px;
-		height: auto;
-		margin-right: 20px;
-	}
+    .book-image {
+        width: 100%;
+        height: 0;
+        padding-bottom: 100%;
+        object-fit: cover;
+    }
 
-	.book-info {
-		flex-grow: 1;
-	}
+    .comments-section {
+        margin-top: 20px;
+    }
 
-	.comments-section {
-		margin-top: 20px;
-	}
+    .comments-wrapper {
+        border: 1px solid #ddd;
+        padding: 10px;
+    }
 
-	.comments-wrapper {
-		border: 1px solid #ddd;
-		padding: 10px;
-	}
+    .comment {
+        display: flex;
+        flex-direction: column;
+        border: 1px solid #ddd;
+        padding: 10px;
+        margin-bottom: 10px;
+        position: relative;
+    }
 
-	.comment {
-		display: flex;
-		flex-direction: column;
-		border: 1px solid #ddd;
-		padding: 10px;
-		margin-bottom: 10px;
-	}
+    .comment-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
 
-	.comment-header {
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-	}
+    .comment-date {
+        font-size: 0.9em;
+        color: #888;
+    }
 
-	.comment-date {
-		font-size: 0.9em;
-		color: #888;
-	}
+    .user-info {
+        display: flex;
+        align-items: center;
+    }
 
-	.user-info {
-		display: flex;
-		align-items: center;
-	}
+    .user-image {
+        width: 75px;
+        height: 75px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin-right: 10px;
+    }
 
-	.user-image {
-		width: 75px;
-		height: 75px;
-		border-radius: 50%;
-		object-fit: cover;
-		margin-right: 10px;
-	}
+    .user-name {
+        font-weight: bold;
+    }
 
-	.user-name {
-		font-weight: bold;
-	}
+    .comment-body {
+        margin-top: 10px;
+        padding-bottom: 30px;
+        position: relative;
+    }
 
-	.comment-body {
-		margin-top: 10px;
-	}
+    .review-button-wrapper {
+        position: relative;
+        margin-top: 50px;
+    }
 
-		.comment-body p {
-			margin: 0;
-		}
+    .home-button {
+        position: absolute;
+        bottom: 0;
+        right: 120px;
+        margin-right: 10px;
+    }
 
-	.review-button-wrapper {
-		position: relative;
-		margin-top: 50px;
-	}
-
-	.home-button {
-		position: absolute;
-		bottom: 0;
-		right: 120px; /* Review button'un solundan 120px sola yerleştir */
-		margin-right: 10px; /* Butonlar arasında bir miktar boşluk bırakmak için */
-	}
-
-	.review-button {
-		position: absolute;
-		bottom: 0;
-		right: 0;
-	}
-
-
+    .review-button {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+    }
 </style>
