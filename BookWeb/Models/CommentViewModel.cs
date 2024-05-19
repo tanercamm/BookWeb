@@ -6,7 +6,7 @@ public class CommentViewModel
 	public int CommentId { get; set; }
 
 	[Required]
-	[StringLength(500, MinimumLength = 50, ErrorMessage = "Comment text must be between 50-500 characters.")]
+	[StringLength(2000, MinimumLength = 50, ErrorMessage = "Comment text must be between 50-2000 characters.")]
 	public string Text { get; set; }
 
 	[Required]
