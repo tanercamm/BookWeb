@@ -49,27 +49,6 @@ Once the project is successfully running, visit the following URL in your browse
 - `Email = info@admin.com`
 - `Password = Admin_123`
 
-## User
-- 1
-- `Email = alpertas@gmail.com`
-- `Password = Alper123789`
-- 2
-- `Email = ipekekim@gmail.com`
-- `Password = İpek123789`
-- 3
-- `Email = ozgurakay@gmail.com`
-- `Email = Ozgur123789`
-- 4
-- `Email = burakparlak@gmail.com`
-- `Email = Burak123789`
-- 5
-- `Email = petekguloglu@gmail.com`
-- `Email = Petek123789`
-- .
-- .
-- .
-
-
 ## Images
 ### Register
 ![](https://github.com/tanercamm/BookWeb/blob/master/BookWeb/wwwroot/SS_BookWeb/register.png)
